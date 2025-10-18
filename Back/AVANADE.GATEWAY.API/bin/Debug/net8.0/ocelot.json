@@ -1,0 +1,50 @@
+{
+  "Routes": [
+    // --- Rota para a API de Autenticação (Login, Refresh, etc.) ---
+    {
+      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Get" ],
+      "DownstreamPathTemplate": "/api/v1/Auth/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "avanade.auth.api", // Nome do serviço no docker-compose
+          "Port": 80 // Porta interna do container
+        }
+      ]
+    },
+
+    // --- Rota INTERNA para a API de Usuário (Validação de Credenciais) ---
+    // Esta rota será chamada pela Auth.API.
+    {
+      "UpstreamPathTemplate": "/api/usuarios/validar-credenciais",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/v1/Usuarios/validar-credenciais",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "avanade.usuario.api", // Nome do serviço no docker-compose
+          "Port": 80
+        }
+      ]
+    },
+       
+    //Rota usada pelo frontend para a tela de cadastro.
+    {
+      "UpstreamPathTemplate": "/api/usuarios",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/v1/Usuarios",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "avanade.usuario.api",
+          "Port": 80
+        }
+      ]
+    }
+    // Adicione aqui futuras rotas para Estoque, Vendas, etc.
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000" // Endereço base do próprio Gateway
+  }
+}

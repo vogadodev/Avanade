@@ -1,0 +1,171 @@
+services:  
+
+  # -----------------------------------------------------
+  #  API GATEWAY - Orquestrador do Backend
+  # -----------------------------------------------------
+  avanade-gateway-api:
+    container_name: avanade-gateway-api
+    build:
+      context: ./back
+      dockerfile: AVANADE.GATEWAY.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "8080:8080"
+    networks:
+      - avanade-network
+    depends_on:
+      - avanade-auth-api
+      - avanade-usuario-api
+      - avanade-estoque-api
+      - avanade-vendas-api
+
+  # -----------------------------------------------------
+  #  MICROSERVIÇOS DE BACKEND
+  # -----------------------------------------------------
+  avanade-auth-api:
+    container_name: avanade-auth-api
+    build:
+      context: ./back
+      dockerfile: AVANADE.AUTH.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__AuthDbConnection=Server=db-auth;Database=AvanadeAuthDb;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True
+      - RabbitMq__Host=rabbitmq
+    networks:
+      - avanade-network
+    depends_on:
+      - db-auth
+      - rabbitmq
+
+  avanade-usuario-api:
+    container_name: avanade-usuario-api
+    build:
+      context: ./back
+      dockerfile: AVANADE.USUARIO.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__UsuarioDbConnection=Server=db-usuario;Database=AvanadeUsuarioDb;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True
+      - RabbitMq__Host=rabbitmq
+    networks:
+      - avanade-network
+    depends_on:
+      - db-usuario
+      - rabbitmq
+
+  avanade-estoque-api:
+    container_name: avanade-estoque-api
+    build:
+      context: ./back
+      dockerfile: AVANADE.ESTOQUE.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__EstoqueDbConnection=Server=db-estoque;Database=AvanadeEstoqueDb;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True
+      - RabbitMq__Host=rabbitmq
+    networks:
+      - avanade-network
+    depends_on:
+      - db-estoque
+      - rabbitmq
+  
+
+  avanade-vendas-api:
+    container_name: avanade-vendas-api
+    build:
+      context: ./back
+      dockerfile: AVANADE.VENDAS.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__VendasDbConnection=Server=db-vendas;Database=AvanadeVendasDb;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True
+      - RabbitMq__Host=rabbitmq
+    networks:
+      - avanade-network
+    depends_on:
+      - db-vendas
+      - rabbitmq
+
+  # -----------------------------------------------------
+  #  INFRAESTRUTURA
+  # -----------------------------------------------------
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - avanade-network
+
+  db-auth:
+    container_name: db-auth
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    ports:
+      - "1433:1433"
+    volumes:
+      - db-auth-data:/var/opt/mssql
+    networks:
+      - avanade-network
+
+  db-usuario:
+    container_name: db-usuario
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    ports:
+      - "1434:1433"
+    volumes:
+      - db-usuario-data:/var/opt/mssql
+    networks:
+      - avanade-network
+
+  db-estoque:
+    container_name: db-estoque
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    ports:
+      - "1435:1433"
+    volumes:
+      - db-estoque-data:/var/opt/mssql
+    networks:
+      - avanade-network
+      
+ 
+  db-vendas:
+    container_name: db-vendas
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    ports:
+      - "1436:1433"
+    volumes:
+      - db-vendas-data:/var/opt/mssql
+    networks:
+      - avanade-network
+
+# -----------------------------------------------------
+#  CONFIGURAÇÕES GLOBAIS
+# -----------------------------------------------------
+networks:
+  avanade-network:
+    driver: bridge
+
+volumes:
+  db-auth-data:
+  db-usuario-data:
+  db-estoque-data:
+  db-vendas-data:

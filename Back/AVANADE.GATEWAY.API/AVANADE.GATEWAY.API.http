@@ -1,0 +1,6 @@
+@AVANADE.GATEWAY.API_HostAddress = http://localhost:5131
+
+GET {{AVANADE.GATEWAY.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

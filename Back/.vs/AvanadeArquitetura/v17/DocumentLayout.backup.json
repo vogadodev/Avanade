@@ -1,0 +1,65 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Avanade\\App\\Back\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D8321948-D11C-4021-87A5-F05D18D6146B}|AVANADE.VENDAS.API\\AVANADE.VENDAS.API.csproj|c:\\avanade\\app\\back\\avanade.vendas.api\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D8321948-D11C-4021-87A5-F05D18D6146B}|AVANADE.VENDAS.API\\AVANADE.VENDAS.API.csproj|solutionrelative:avanade.vendas.api\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{596C7A13-062A-467D-BC96-87E14CC9D88E}|AVANADE.ESTOQUE.API\\AVANADE.ESTOQUE.API.csproj|c:\\avanade\\app\\back\\avanade.estoque.api\\avanade.estoque.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{596C7A13-062A-467D-BC96-87E14CC9D88E}|AVANADE.ESTOQUE.API\\AVANADE.ESTOQUE.API.csproj|solutionrelative:avanade.estoque.api\\avanade.estoque.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Avanade\\App\\Back\\AVANADE.VENDAS.API\\Dockerfile",
+              "RelativeDocumentMoniker": "AVANADE.VENDAS.API\\Dockerfile",
+              "ToolTip": "C:\\Avanade\\App\\Back\\AVANADE.VENDAS.API\\Dockerfile",
+              "RelativeToolTip": "AVANADE.VENDAS.API\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-10-16T04:31:19.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AVANADE.ESTOQUE.API.csproj",
+              "DocumentMoniker": "C:\\Avanade\\App\\Back\\AVANADE.ESTOQUE.API\\AVANADE.ESTOQUE.API.csproj",
+              "RelativeDocumentMoniker": "AVANADE.ESTOQUE.API\\AVANADE.ESTOQUE.API.csproj",
+              "ToolTip": "C:\\Avanade\\App\\Back\\AVANADE.ESTOQUE.API\\AVANADE.ESTOQUE.API.csproj",
+              "RelativeToolTip": "AVANADE.ESTOQUE.API\\AVANADE.ESTOQUE.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-16T03:48:09.154Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

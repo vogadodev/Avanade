@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "AVANADE.AUTH.API\\AVANADE.AUTH.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "AVANADE.GATEWAY.API\\AVANADE.GATEWAY.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "AVANADE.VENDAS.API\\AVANADE.VENDAS.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "AVANADE.ESTOQUE.API\\AVANADE.ESTOQUE.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "AVANADE.USUARIO.API\\AVANADE.USUARIO.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

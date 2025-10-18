@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        padding-top: 70px; /* Espaço para o menu (nav.nav-content) */
+        margin: 0;
+        font-family: Roboto, 'Helvetica Neue', sans-serif;
+      }
+
+      nav.nav-content {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 64px;
+        background-color: #1a1a1a;
+        color: white;
+        display: flex;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 99999;
+      }
+
+      main.main-content {
+        height: calc(100% - 70px);
+        background-color: #fafafa;
+      }
+    </style>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src *  data: blob: 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * data: blob: 'unsafe-inline'; font-src * data: blob: 'unsafe-inline';"
+    />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Avanade E-commerce</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="importmap-type" content="systemjs-importmap" />
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "navbar": "https://menu.avanade.front.com.br/main.js",
+          "home": "https://home.avanade.front.com.br/main.js",
+          "vendas": "https://vendas.avanade.front.com.br/main.js",
+          "estoque": "https://estoque.avanade.front.com.br/main.js",
+          "usuario": "https://usuario.avanade.front.com.br/main.js",
+          "single-spa": "https://cdnjs.cloudflare.com/ajax/libs/single-spa/5.5.0/system/single-spa.min.js",
+          "single-spa-layout": "https://unpkg.com/single-spa-layout@1.0.0-beta.2/dist/system/single-spa-layout.min.js"
+        }
+      }
+    </script>
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/single-spa/5.5.0/system/single-spa.min.js"
+      as="script"
+      crossorigin="anonymous"
+    />
+    <script src="https://unpkg.com/core-js-bundle@3.1.4/minified.js"></script>
+    <script src="https://unpkg.com/zone.js@0.10.3/dist/zone.js"></script>
+    <script src="https://unpkg.com/import-map-overrides@1.15.1/dist/import-map-overrides.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/system.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/amd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-exports.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-register.min.js"></script>
+    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <template id="single-spa-layout">
+      <single-spa-router>
+        <nav class="nav-content">
+          <application name="navbar"></application>
+        </nav>
+        <div class="main-content">
+          <route default>
+            <application name="home"></application>
+          </route>
+          <route path="vendas">
+            <application name="vendas"></application>
+          </route>
+          <route path="estoque">
+            <application name="estoque"></application>
+          </route>
+          <route path="usuario">
+            <application name="usuario"></application>
+          </route>
+        </div>
+      </single-spa-router>
+    </template>
+  </head>
+  <body>
+    <script>
+      Promise.all([System.import('single-spa'), System.import('single-spa-layout')]).then(
+        ([singleSpa, singleSpaLayout]) => {
+          const { constructApplications, constructLayoutEngine, constructRoutes } = singleSpaLayout;
+          const { registerApplication, start } = singleSpa;
+
+          const routes = constructRoutes(document.querySelector('#single-spa-layout'));
+          const applications = constructApplications({
+            routes,
+            loadApp({ name }) {
+              return System.import(name);
+            },
+          });
+          const layoutEngine = constructLayoutEngine({ routes, applications });
+          applications.forEach(registerApplication);
+
+          start();
+        },
+      );
+    </script>
+    <import-map-overrides-full></import-map-overrides-full>
+  </body>
+</html>

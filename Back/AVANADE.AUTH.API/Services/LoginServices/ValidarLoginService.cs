@@ -1,0 +1,33 @@
+﻿using AVANADE.INFRASTRUCTURE.ServicesComum.MenssagemService;
+using AVANADE.MODULOS.Modulos.AVANADE_AUTH.DTOs.Request;
+using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades;
+using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Resourcers;
+
+namespace AVANADE.AUTH.API.Services.LoginServices
+{
+    public class ValidarLoginService : MensagemService
+    {
+        public ValidarLoginService()
+        {
+
+        }
+
+        public async Task<bool> ValidarLogin(LoginRequestDto loginRequest)
+        {
+            ValidarCampoEmail(loginRequest);
+            ValidarCampoSenha(loginRequest);
+            return await Task.FromResult(Mensagens.TemErros());
+        }
+
+        private void ValidarCampoSenha(LoginRequestDto loginRequest)
+        {
+            if (string.IsNullOrWhiteSpace(loginRequest.Password))
+                Mensagens.AdicionarErro(LoginResource.SenhaObrigatoria);
+        }
+        private void ValidarCampoEmail(LoginRequestDto loginRequest)
+        {
+            if (string.IsNullOrWhiteSpace(loginRequest.Email))
+                Mensagens.AdicionarErro(LoginResource.EmailObrigatorio);
+        }
+    }
+}
