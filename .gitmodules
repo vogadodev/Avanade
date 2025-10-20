@@ -1,0 +1,9 @@
+[submodule "Front/avanade-navprincipal-front/projects/avanadecomponentes"]
+	path = Front/avanade-navprincipal-front/projects/avanadecomponentes
+	url = https://github.com/vogadodev/avanadecomponentes.git
+[submodule "Front/avanade-home-front/projects/avanadecomponentes"]
+	path = Front/avanade-home-front/projects/avanadecomponentes
+	url = https://github.com/vogadodev/avanadecomponentes.git
+[submodule "Front/avanade-usuario-front/projects/avanadecomponentes"]
+	path = Front/avanade-usuario-front/projects/avanadecomponentes
+	url = https://github.com/vogadodev/avanadecomponentes.git
