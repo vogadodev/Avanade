@@ -1,0 +1,249 @@
+/* =================================================================
+   Variáveis Globais (da sua Lib)
+================================================================= */
+$avanade-orange: #ff5f00;
+$avanade-purple: #6a00ff;
+$avanade-dark-gray: #333333;
+$avanade-medium-gray: #777777;
+$avanade-light-gray: #f5f5f5;
+$avanade-success-green: #28a745;
+
+// Variáveis locais derivadas
+$text-color-light: #fff;
+$top-bar-bg: $avanade-purple; // Mapeado para o roxo
+$departments-bar-bg: $avanade-light-gray;
+$border-color: #e0e0e0; // Um cinza neutro para a borda
+
+:host {
+  display: block;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-container {
+  width: 100%;
+}
+
+/* =================================================================
+   Barra Superior (Logo, Busca, Ações)
+================================================================= */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px 20px;
+  background-color: $top-bar-bg; // Usando $avanade-purple
+  color: $text-color-light;
+
+  a {
+    color: $text-color-light;
+    text-decoration: none;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.search-container {
+  display: flex;
+  flex-grow: 1;
+  margin: 0 20px;
+  max-width: 600px;
+  min-width: 200px;
+
+  input.form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+  }
+
+  button.btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: $avanade-orange; // Usando $avanade-orange
+    border-color: $avanade-orange; // Usando $avanade-orange
+    color: $text-color-light;
+    flex-shrink: 0;
+
+    &:hover {
+      opacity: 0.9;
+    }
+    i {
+      font-size: 1.1rem;
+      vertical-align: middle;
+    }
+  }
+}
+
+/* =================================================================
+   Ações do Usuário
+================================================================= */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-left: auto;
+  flex-shrink: 0;
+
+  .action-link {
+    color: $text-color-light;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    // Ícones simples
+    i {
+      font-size: 1.6rem;
+    }
+  }
+
+  // Bloco de Login
+  .login-block {
+    gap: 12px;
+
+    .icon-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid $text-color-light;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+
+      i {
+        font-size: 1.8rem;
+      }
+    }
+
+    .text-wrapper {
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+      line-height: 1.1;
+
+      span {
+        text-decoration: underline;
+      }
+
+      .ou {
+        font-size: 0.8em;
+        font-weight: normal;
+        text-decoration: none;
+        margin: 0 2px;
+      }
+    }
+  }
+}
+
+/* =================================================================
+   Barra de Departamentos
+================================================================= */
+.departments-bar {
+  background-color: $departments-bar-bg; // Usando $avanade-light-gray
+  border-top: 1px solid $border-color;
+
+  .nav {
+    padding: 5px 20px;
+  }
+
+  .nav-item {
+    margin-right: 15px;
+  }
+
+  .nav-link {
+    color: $avanade-dark-gray; // Usando $avanade-dark-gray
+    font-weight: 500;
+    padding: 8px 0;
+    font-size: 0.9rem;
+
+    &:hover {
+      color: $avanade-orange; // Usando $avanade-orange
+    }
+  }
+}
+
+/* =================================================================
+   Layout Responsivo
+================================================================= */
+
+// --- Telas Médias (Tablets ~992px) ---
+@media (max-width: 992px) {
+  .top-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .logo-container {
+    flex-basis: 50%;
+  }
+  .user-actions {
+    flex-basis: 50%;
+    justify-content: flex-end;
+    gap: 15px;
+  }
+
+  .search-container {
+    order: 3;
+    flex-basis: 100%;
+    margin: 5px 0 0 0;
+    max-width: none;
+  }
+}
+
+// --- Telas Pequenas (Tablets em modo retrato ~768px) ---
+@media (max-width: 768px) {
+  .user-actions {
+    .login-block .text-wrapper {
+      display: none; // Oculta o texto "Entre/Cadastre-se"
+    }
+  }
+
+  .departments-bar {
+    .nav {
+      flex-wrap: nowrap;
+      overflow-x: auto; // Adiciona scroll horizontal
+      padding: 5px 10px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .nav-item {
+      flex-shrink: 0;
+      margin: 0 10px;
+    }
+  }
+}
+
+// --- Telas Extra-Pequenas (Smartphones ~576px) ---
+@media (max-width: 576px) {
+  .top-bar {
+    flex-direction: column; // Empilha tudo
+    align-items: center;
+    gap: 15px;
+  }
+
+  .logo-container {
+    order: 1;
+    flex-basis: auto;
+  }
+
+  .search-container {
+    order: 2;
+  }
+
+  .user-actions {
+    order: 3;
+    width: 100%;
+    justify-content: space-around;
+    margin-left: 0;
+    flex-basis: auto;
+  }
+}

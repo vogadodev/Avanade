@@ -1,4 +1,4 @@
-services:  
+services:
 
   # -----------------------------------------------------
   #  API GATEWAY - Orquestrador do Backend
@@ -14,13 +14,9 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - avanade-network
+      - avanade-network    
     depends_on:
-      - avanade-auth-api
-      - avanade-usuario-api
-      - avanade-estoque-api
-      - avanade-vendas-api
-
+      - rabbitmq 
   # -----------------------------------------------------
   #  MICROSERVIÇOS DE BACKEND
   # -----------------------------------------------------
@@ -29,6 +25,8 @@ services:
     build:
       context: ./back
       dockerfile: AVANADE.AUTH.API/Dockerfile
+    profiles:
+      - auth 
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
@@ -45,6 +43,8 @@ services:
     build:
       context: ./back
       dockerfile: AVANADE.USUARIO.API/Dockerfile
+    profiles:
+      - usuario 
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
@@ -61,6 +61,8 @@ services:
     build:
       context: ./back
       dockerfile: AVANADE.ESTOQUE.API/Dockerfile
+    profiles:
+      - estoque 
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
@@ -71,13 +73,14 @@ services:
     depends_on:
       - db-estoque
       - rabbitmq
-  
 
   avanade-vendas-api:
     container_name: avanade-vendas-api
     build:
       context: ./back
       dockerfile: AVANADE.VENDAS.API/Dockerfile
+    profiles:
+      - vendas 
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
@@ -95,6 +98,7 @@ services:
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3-management-alpine
+    # O RabbitMQ vai rodar sempre (sem 'profile')
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -107,6 +111,8 @@ services:
   db-auth:
     container_name: db-auth
     image: mcr.microsoft.com/mssql/server:2022-latest
+    profiles:
+      - auth 
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
@@ -120,6 +126,8 @@ services:
   db-usuario:
     container_name: db-usuario
     image: mcr.microsoft.com/mssql/server:2022-latest
+    profiles:
+      - usuario 
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
@@ -133,6 +141,8 @@ services:
   db-estoque:
     container_name: db-estoque
     image: mcr.microsoft.com/mssql/server:2022-latest
+    profiles:
+      - estoque 
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
@@ -142,11 +152,12 @@ services:
       - db-estoque-data:/var/opt/mssql
     networks:
       - avanade-network
-      
- 
+
   db-vendas:
     container_name: db-vendas
     image: mcr.microsoft.com/mssql/server:2022-latest
+    profiles:
+      - vendas 
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}

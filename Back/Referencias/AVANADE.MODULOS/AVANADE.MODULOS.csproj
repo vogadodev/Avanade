@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Modulos\AVANADE_COMUM\Maps\" />
-    <Folder Include="Modulos\AVANADE_ESTOQUE\" />
+    <Folder Include="Modulos\AVANADE_ESTOQUE\Enums\" />
     <Folder Include="Modulos\AVANADE_VENDAS\" />
     <Folder Include="Modulos\AVANADE_MENSSAGERIA\" />
   </ItemGroup>
@@ -18,12 +18,12 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.19" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.19">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />		
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Modulos\AVANADE_COMUM\Resourcers\LoginResource.Designer.cs">
@@ -31,11 +31,47 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>LoginResource.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Modulos\AVANADE_ESTOQUE\Resourcers\CategoriaResourcer.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>CategoriaResourcer.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Modulos\AVANADE_ESTOQUE\Resourcers\FornecedorResourcer.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>FornecedorResourcer.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Modulos\AVANADE_ESTOQUE\Resourcers\MarcaResourcer.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>MarcaResourcer.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Modulos\AVANADE_ESTOQUE\Resourcers\ProdutoResourcer.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>ProdutoResourcer.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Update="Modulos\AVANADE_COMUM\Resourcers\LoginResource.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>LoginResource.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Modulos\AVANADE_ESTOQUE\Resourcers\CategoriaResourcer.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>CategoriaResourcer.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Modulos\AVANADE_ESTOQUE\Resourcers\FornecedorResourcer.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>FornecedorResourcer.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Modulos\AVANADE_ESTOQUE\Resourcers\MarcaResourcer.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>MarcaResourcer.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Modulos\AVANADE_ESTOQUE\Resourcers\ProdutoResourcer.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>ProdutoResourcer.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
 </Project>

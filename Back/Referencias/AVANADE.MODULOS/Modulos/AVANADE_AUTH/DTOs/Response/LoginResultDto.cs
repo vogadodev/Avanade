@@ -3,6 +3,7 @@
     public record LoginResultDto(
      bool Succeeded,
      string? IDUsuario = null,
+     string? NomeUsuario = null,
      string? AccessToken = null,
      string? RefreshToken = null,
      string ErrorMessage = ""

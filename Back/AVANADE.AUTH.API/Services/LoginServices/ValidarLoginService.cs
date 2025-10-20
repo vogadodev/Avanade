@@ -12,11 +12,11 @@ namespace AVANADE.AUTH.API.Services.LoginServices
 
         }
 
-        public async Task<bool> ValidarLogin(LoginRequestDto loginRequest)
+        public bool ValidarLogin(LoginRequestDto loginRequest)
         {
             ValidarCampoEmail(loginRequest);
             ValidarCampoSenha(loginRequest);
-            return await Task.FromResult(Mensagens.TemErros());
+            return Mensagens.TemErros();
         }
 
         private void ValidarCampoSenha(LoginRequestDto loginRequest)

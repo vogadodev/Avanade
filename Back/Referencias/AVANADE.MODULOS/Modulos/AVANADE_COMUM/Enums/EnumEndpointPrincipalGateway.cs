@@ -4,7 +4,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_COMUM.Enums
 {
     public enum EnumEndpointPrincipalGateway
     {
-        [Description("avanade.gateway.com.br/api/")]
+        [Description("https://avanade.gateway.com.br/api/")]
         EndPointGateway,
     }
 }

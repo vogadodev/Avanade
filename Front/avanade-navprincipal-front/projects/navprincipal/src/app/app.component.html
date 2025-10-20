@@ -1,0 +1,50 @@
+<header class="menu-container">
+  <div class="top-bar">
+    <div class="logo-container">
+      <a routerLink="/" aria-label="Página Inicial">
+        <img [src]="avanadeLogo" alt="" height="64" />
+      </a>
+    </div>
+
+    <div class="search-container">
+      <input
+        type="search"
+        class="form-control"
+        placeholder="Busque aqui seu produto ;)"
+        #searchInput
+      />
+      <button class="btn btn-warning" (click)="onSearch(searchInput.value)" aria-label="Buscar">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+
+    <nav class="user-actions">
+      <a (click)="openLoginModal()" class="action-link login-block">
+        <div class="icon-wrapper">
+          <i class="bi bi-person"></i>
+        </div>
+        <div class="text-wrapper">
+          <span>Entre <span class="ou">OU</span></span>
+          <span>Cadastre-se</span>
+        </div>
+      </a>
+
+      <a class="action-link" aria-label="Atendimento">
+        <i class="bi bi-headset"></i>
+      </a>
+      <a class="action-link" aria-label="Rastrear Pedido/LGPD">
+        <i class="bi bi-person-vcard"></i>
+      </a>
+      <a class="action-link" aria-label="Favoritos">
+        <i class="bi bi-heart"></i>
+      </a>
+      <a class="action-link" aria-label="Carrinho">
+        <i class="bi bi-cart"></i>
+      </a>
+    </nav>
+  </div>
+
+  <nav class="departments-bar"></nav>
+</header>
+
+<app-login-modal></app-login-modal>

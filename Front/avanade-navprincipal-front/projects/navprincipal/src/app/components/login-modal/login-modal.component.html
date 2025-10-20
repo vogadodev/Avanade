@@ -1,0 +1,111 @@
+<div
+  class="modal fade"
+  #loginModal
+  tabindex="-1"
+  aria-labelledby="loginModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Acesse sua Conta</h5>
+        <button type="button" class="btn-close" (click)="hide()" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="home-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#login-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="login-tab-pane"
+              aria-selected="true"
+            >
+              Entrar
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="profile-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#register-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="register-tab-pane"
+              aria-selected="false"
+            >
+              Cadastre-se
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="login-tab-pane"
+            role="tabpanel"
+            aria-labelledby="login-tab"
+            tabindex="0"
+          >
+            <form
+              [formGroup]="formLogin"
+              (ngSubmit)="onLogin()"
+              class="d-flex flex-column gap-3 mt-3"
+            >
+              <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="loginEmail"
+                  placeholder="seuemail@exemplo.com"
+                  formControlName="email"
+                />
+              </div>
+              <div class="form-group">
+                <label for="loginPassword">Senha</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="loginPassword"
+                  placeholder="Sua senha"
+                  formArrayName="senha"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            </form>
+          </div>
+
+          <div
+            class="tab-pane fade"
+            id="register-tab-pane"
+            role="tabpanel"
+            aria-labelledby="register-tab"
+            tabindex="0"
+          >
+            <form (ngSubmit)="onRegister()" class="d-flex flex-column gap-3 mt-3">
+              <div class="form-group">
+                <label for="regNome">Nome Completo</label>
+                <input type="text" class="form-control" id="regNome" />
+              </div>
+              <div class="form-group">
+                <label for="regEmail">Email</label>
+                <input type="email" class="form-control" id="regEmail" />
+              </div>
+              <div class="form-group">
+                <label for="regPassword">Senha</label>
+                <input type="password" class="form-control" id="regPassword" />
+              </div>
+              <button type="submit" class="btn btn-success w-100">Criar Conta</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -31,9 +31,8 @@ namespace AVANADE.AUTH.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto dto)
         {
-            if ( await _validarLoginService.ValidarLogin(dto))
+            if (_validarLoginService.ValidarLogin(dto))
             {
-                // Retorna os erros de validação de campos.
                 return BadRequest(_validarLoginService.Mensagens);
             }
 
@@ -45,7 +44,7 @@ namespace AVANADE.AUTH.API.Controllers
             }
 
             SetTokenCookies(result.AccessToken!, result.RefreshToken!);
-            return Ok(new LoginResponseDto(result.IDUsuario!));
+            return Ok(new LoginResponseDto(result.IDUsuario!, result.NomeUsuario!));
         }
 
         [HttpPost("refreshtoken")]
@@ -64,7 +63,7 @@ namespace AVANADE.AUTH.API.Controllers
             if (result.Succeeded)
             {
                 SetTokenCookies(result.NewAccessToken!, result.NewRefreshToken!);
-                return Ok(); // Retorna 200 OK sem corpo, os tokens são enviados via cookie.
+                return Ok();
             }
 
             return Unauthorized(new { message = result.ErrorMessage });

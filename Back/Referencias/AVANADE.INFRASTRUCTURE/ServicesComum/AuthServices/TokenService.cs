@@ -15,9 +15,8 @@ namespace AVANADE.INFRASTRUCTURE.ServicesComum.AuthServices
 
         public TokenService(JwtSettings jwtOptions)
         {
-            _jwtOptions = jwtOptions;
+            _jwtOptions = jwtOptions;            
             
-            // Pré-configura os parâmetros de validação para reutilização
             _tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
@@ -26,7 +25,7 @@ namespace AVANADE.INFRASTRUCTURE.ServicesComum.AuthServices
                 ValidIssuer = _jwtOptions.Issuer,
                 ValidateAudience = true,
                 ValidAudience = _jwtOptions.Audience,
-                ValidateLifetime = true, // Valida a expiração por padrão
+                ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
         }

@@ -1,5 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = builder.Configuration;
+const string DbConnectionName = "UsuarioDbConnection";
 // Add services to the container.
 
 builder.Services.AddControllers();

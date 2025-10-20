@@ -1,0 +1,36 @@
+﻿{
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 120,
+  "proseWrap": "never",
+  "overrides": [
+    {
+      "files": ["*.ts", "*.js"],
+      "options": {
+        "printWidth": 180,
+        "proseWrap": "never"
+      }
+    },
+    {
+      "files": ["*.html"],
+      "options": {
+        "printWidth": 100
+      }
+    },
+    {
+      "files": ["*.css", "*.scss"],
+      "options": {
+        "printWidth": 60
+      }
+    },
+    {
+      "files": ["*.json"],
+      "options": {
+        "printWidth": 80
+      }
+    }
+  ]
+}

@@ -23,7 +23,7 @@ namespace AVANADE.INFRASTRUCTURE
             services.AddJsonConfigComum(configuration);
             services.AddHttpClient();
             services.AddJwtAuthentication(configuration);
-            services.AddAuthorization();
+            services.AddAuthorizationPolices();
 
             return services;
         }
@@ -87,7 +87,7 @@ namespace AVANADE.INFRASTRUCTURE
             return services;
         }
 
-        private static IServiceCollection AddAuthorization(this IServiceCollection services)
+        private static IServiceCollection AddAuthorizationPolices(this IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
@@ -115,7 +115,7 @@ namespace AVANADE.INFRASTRUCTURE
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    string[] origins = { "http://front.odontonexus.com.br", "https://front.odontonexus.com.br"};
+                    string[] origins = { "http://front.odontonexus.com.br", "https://front.odontonexus.com.br" };
                     builder.
                      WithOrigins(origins)
                      .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
@@ -131,16 +131,14 @@ namespace AVANADE.INFRASTRUCTURE
 
         #region INJECTGLOBALSERVICESMANUALLY
 
-        public static void AddDbContextConfiguration<TDbContext>(this IServiceCollection services, IConfiguration configuration) where TDbContext : DbContext
+        public static void AddDbContextConfiguration<TDbContext>(this IServiceCollection services,IConfiguration configuration,string connectionStringName)
+     where TDbContext : DbContext
         {
             services.AddDbContext<TDbContext>(options =>
             {
-                options.UseMySql(
-                    configuration.GetConnectionString("DefaultConnection"),
-                    new MySqlServerVersion(
-                        new Version(8, 0, 19, 0)
-                        ));
-
+                options.UseSqlServer(
+                    configuration.GetConnectionString(connectionStringName)
+                );
             });
         }
         public static IApplicationBuilder AddCustomMiddlewares(this IApplicationBuilder app)

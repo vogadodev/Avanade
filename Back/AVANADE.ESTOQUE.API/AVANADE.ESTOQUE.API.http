@@ -1,6 +1,0 @@
-@AVANADE.ESTOQUE.API_HostAddress = http://localhost:5170
-
-GET {{AVANADE.ESTOQUE.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

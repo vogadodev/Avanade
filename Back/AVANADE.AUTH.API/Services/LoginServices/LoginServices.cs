@@ -52,19 +52,16 @@ namespace AVANADE.AUTH.API.Services.LoginServices
             {
                 return new LoginResultDto(false, ErrorMessage: "Formato de dados do usuário inválido.");
             }
-
-            //Gera os tokens com base nos dados recebidos
+                      
             var claims = CriarClaims(usuario);
             var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken(usuario.Id);
-
-            //Persiste o refresh token no banco de dados da AUTH.API
+            
             await _refreshTokenRepository.DbSet.AddAsync(refreshToken);
             await _refreshTokenRepository.SaveChangesAsync();
-            return new LoginResultDto(true, usuario.Id.ToString(), accessToken, refreshToken.Token);
+            return new LoginResultDto(true, usuario.Id.ToString(), accessToken, refreshToken.Token, usuario.Nome);
         }
-
-        // Este método agora apenas extrai informações do token, sem acessar o banco.
+              
         public Guid? ObterIdUsuarioLogado(ClaimsPrincipal user)
         {
             var userIdValue = user.FindFirstValue(ClaimTypes.NameIdentifier) ?? user.FindFirstValue(JwtRegisteredClaimNames.Sub);

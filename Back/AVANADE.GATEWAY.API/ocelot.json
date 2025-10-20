@@ -1,50 +1,121 @@
 {
   "Routes": [
-    // --- Rota para a API de Autenticação (Login, Refresh, etc.) ---
+    /*======================================================
+      AUTH API
+    ======================================================*/
     {
       "UpstreamPathTemplate": "/api/auth/{everything}",
       "UpstreamHttpMethod": [ "Post", "Get" ],
-      "DownstreamPathTemplate": "/api/v1/Auth/{everything}",
+      "DownstreamPathTemplate": "/api/v1/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "avanade.auth.api", // Nome do serviço no docker-compose
-          "Port": 80 // Porta interna do container
+          "Host": "avanade-auth-api",
+          "Port": 8080
         }
-      ]
+      ],
+      "SwaggerKey": "auth-api"
     },
 
-    // --- Rota INTERNA para a API de Usuário (Validação de Credenciais) ---
-    // Esta rota será chamada pela Auth.API.
+    /*======================================================
+      USUARIO API
+    ======================================================*/
     {
-      "UpstreamPathTemplate": "/api/usuarios/validar-credenciais",
-      "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/v1/Usuarios/validar-credenciais",
+      "UpstreamPathTemplate": "/api/usuarios/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/v1/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "avanade.usuario.api", // Nome do serviço no docker-compose
-          "Port": 80
+          "Host": "avanade-usuario-api",
+          "Port": 8080
+        }
+      ],
+      "SwaggerKey": "usuario-api"
+    },
+
+    /*======================================================
+      ESTOQUE API
+    ======================================================*/
+    {
+      "UpstreamPathTemplate": "/api/estoque/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/v1/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "avanade-estoque-api",
+          "Port": 8080
+        }
+      ],
+      "SwaggerKey": "estoque-api"
+    },
+
+    /*======================================================
+      VENDAS API
+    ======================================================*/
+    {
+      "UpstreamPathTemplate": "/api/vendas/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/v1/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "avanade-vendas-api",
+          "Port": 8080
+        }
+      ],
+      "SwaggerKey": "vendas-api"
+    }
+  ],
+
+  /*======================================================
+    CONFIGURAÇÃO DO SWAGGER AGREGADO
+  ======================================================*/
+  "SwaggerEndPoints": [
+    {
+      "Key": "auth-api",      
+      "Config": [
+        {
+          "Name": "API de Autenticação",
+          "Version": "v1",
+          "Url": "http://avanade-auth-api:8080/swagger/v1/swagger.json"
         }
       ]
     },
-       
-    //Rota usada pelo frontend para a tela de cadastro.
     {
-      "UpstreamPathTemplate": "/api/usuarios",
-      "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/v1/Usuarios",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
+      "Key": "usuario-api",      
+      "Config": [
         {
-          "Host": "avanade.usuario.api",
-          "Port": 80
+          "Name": "API de Usuário",
+          "Version": "v1",
+          "Url": "http://avanade-usuario-api:8080/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "estoque-api",
+      "Config": [
+        {
+          "Name": "API de Estoque",
+          "Version": "v1",
+          "Url": "http://avanade-estoque-api:8080/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "vendas-api",     
+      "Config": [
+        {
+          "Name": "API de Vendas",
+          "Version": "v1",
+          "Url": "http://avanade-vendas-api:8080/swagger/v1/swagger.json"
         }
       ]
     }
-    // Adicione aqui futuras rotas para Estoque, Vendas, etc.
   ],
+
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000" // Endereço base do próprio Gateway
+    "BaseUrl": "http://localhost:5000"
   }
 }

@@ -1,36 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style type="text/css">
-      html,
-      body {
-        height: 100%;
-      }
-
-      body {
-        padding-top: 70px; /* Espaço para o menu (nav.nav-content) */
-        margin: 0;
-        font-family: Roboto, 'Helvetica Neue', sans-serif;
-      }
-
-      nav.nav-content {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 64px;
-        background-color: #1a1a1a;
-        color: white;
-        display: flex;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        z-index: 99999;
-      }
-
-      main.main-content {
-        height: calc(100% - 70px);
-        background-color: #fafafa;
-      }
-    </style>
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src *  data: blob: 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * data: blob: 'unsafe-inline'; font-src * data: blob: 'unsafe-inline';"
@@ -74,7 +44,7 @@
         <nav class="nav-content">
           <application name="navbar"></application>
         </nav>
-        <div class="main-content">
+        <main class="main-content">
           <route default>
             <application name="home"></application>
           </route>
@@ -87,7 +57,7 @@
           <route path="usuario">
             <application name="usuario"></application>
           </route>
-        </div>
+        </main>
       </single-spa-router>
     </template>
   </head>
@@ -112,6 +82,5 @@
         },
       );
     </script>
-    <import-map-overrides-full></import-map-overrides-full>
   </body>
 </html>

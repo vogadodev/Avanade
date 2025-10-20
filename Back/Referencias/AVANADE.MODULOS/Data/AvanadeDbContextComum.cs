@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace AVANADE.MODULOS.Data
 {
@@ -11,6 +12,8 @@ namespace AVANADE.MODULOS.Data
             base.OnModelCreating(modelBuilder);
             InjetarMapsDbContextComum.AddEntitiesMapsDbContextCommon(modelBuilder);
             InjetarMapsDbContextComum.AddDTOsMapsDbContextCommon(modelBuilder);
+            InjecaoDbEstoqueMaps.AddEntidadesMapsEstoque(modelBuilder);
+            InjecaoDbEstoqueMaps.AddDTOsMapsEstoque(modelBuilder);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
