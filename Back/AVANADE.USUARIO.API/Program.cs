@@ -9,6 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Dica Scott Sauber, para não expor o server header.
+builder.WebHost.UseKestrel(opt => opt.AddServerHeader = false);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

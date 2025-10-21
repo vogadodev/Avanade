@@ -18,10 +18,10 @@ namespace AVANADE.ESTOQUE.API.Services.MarcaServices
         public async Task ObterPorNome(string nome)
         {
             var marca = await _MarcaRepository.SelecionarListaObjetoAsync(m=> m.Nome.Contains(nome));
-            if (!marca.Any())
-            {
-                return;
-            }
+           
+            if (!marca.Any())            
+                   return;
+            
             Encontrado = true;
             Data = marca;
         }

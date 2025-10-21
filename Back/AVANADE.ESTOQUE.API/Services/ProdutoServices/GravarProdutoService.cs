@@ -27,13 +27,14 @@ public class GravarProdutoService : RetornoPadraoService
     public async Task GravarProduto(ProdutoRequestDto dto, List<IFormFile>? novasImagens)
     {
         var dtoProdutoTemErros = await _validarProdutoService.ValidarProduto(dto);
+        
         if (dtoProdutoTemErros)
         {
             Mensagens.AddRange(_validarProdutoService.Mensagens);
             return;
         }
 
-        Produto produto = null; //await _produtoRepository.ObterPorIdComRelacionamentosAsync(dto.Id);
+        var produto = await _produtoRepository.ObterPorIdComRelacionamentosAsync(dto.Id);
 
         if (produto != null)
         {

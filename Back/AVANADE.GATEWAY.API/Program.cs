@@ -21,7 +21,9 @@ builder.Services.AddSwaggerForOcelot(builder.Configuration);
 
 //Adicionando serviços comum
 builder.Services.AddInfraServicosComum(configuration);
-           
+
+//Dica Scott Sauber, para não expor o server header.
+builder.WebHost.UseKestrel(opt => opt.AddServerHeader = false);
 
 var app = builder.Build();
 

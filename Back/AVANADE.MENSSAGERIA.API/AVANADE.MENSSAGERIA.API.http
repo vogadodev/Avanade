@@ -1,0 +1,6 @@
+@AVANADE.MENSSAGERIA.API_HostAddress = http://localhost:5027
+
+GET {{AVANADE.MENSSAGERIA.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
