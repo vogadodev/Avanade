@@ -7,7 +7,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.DTOs.Request
         public Guid? Id { get; set; }
         public string? Nome { get; set; }
         public string? Descricao { get; set; }
-        public int CodigoUnico { get; set; }
+        public string? CodigoUnico { get; set; }
         public decimal Preco { get; set; }
         public decimal? PrecoPromocional { get; set; }
         public bool EstaEmPromocao { get; set; }

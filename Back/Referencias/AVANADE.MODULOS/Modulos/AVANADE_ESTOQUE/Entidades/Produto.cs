@@ -5,7 +5,7 @@
         public Guid Id { get; set; }
         public string Nome { get; set; } = string.Empty!;
         public string Descricao { get; set; } = string.Empty!;      
-        public long CodigoUnico { get; set; } 
+        public string CodigoUnico { get; set; } 
         public decimal Preco { get; set; }
         public decimal? PrecoPromocional { get; set; }
         public bool EstaEmPromocao { get; set; }

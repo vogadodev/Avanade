@@ -32,36 +32,35 @@ namespace AVANADE.ESTOQUE.API.Services.ProdutoServices
             Data = MapearProdutoParaResponseDto(produto);
         }
 
-        public async Task ObterTodos()
+        public async Task ObterTodos(int pagina, int qtdItensPagina)
         {
-            var produtos = await _produtoRepository.ObterTodosComRelacionamentosAsync();
+            var produtos = await _produtoRepository.ObterTodosComRelacionamentosAsync(pagina, qtdItensPagina);
             Data = produtos.Select(MapearProdutoParaResponseDto);
         }
 
-        public async Task ObterPorNome(string nome)
+        public async Task ObterPorNome(string nome, int pagina, int qtdItensPagina)
         {
-            var produtos = await _produtoRepository.ObterCompletoPeloNomeAsync(nome);
-            Encontrado = produtos?.Count() > 0;
+            var produtos = await _produtoRepository.ObterCompletoPeloNomeAsync(nome, pagina, qtdItensPagina);
+            Encontrado = produtos.Any();
             if (Encontrado)
                 Data = produtos!.Select(MapearProdutoParaResponseDto);
         }        
 
-        public async Task ObterPorCategoria(string nomeCategoria)
+        public async Task ObterPorCategoria(string nomeCategoria, int pagina, int qtdItensPagina)
         {
-            var produtos = await _produtoRepository.ObterCompletoPeloCategoriaAsync(nomeCategoria);
-            Encontrado = produtos?.Count() > 0;
+            var produtos = await _produtoRepository.ObterCompletoPeloCategoriaAsync(nomeCategoria, pagina, qtdItensPagina);
+            Encontrado = produtos.Any();
             if (Encontrado)
                 Data = produtos!.Select(MapearProdutoParaResponseDto);
         }
 
-        public async Task ObterEmPromocao()
+        public async Task ObterEmPromocao(int pagina, int qtdItensPagina)
         {
-            var produtos = await _produtoRepository.ObterCompletoEmPromocaoAsync();
-            Encontrado = produtos?.Count() > 0;
+            var produtos = await _produtoRepository.ObterCompletoEmPromocaoAsync(pagina, qtdItensPagina);
+            Encontrado = produtos.Any();
             if (Encontrado)
                 Data = produtos!.Select(MapearProdutoParaResponseDto);
         }
-
 
         // Método auxiliar para mapear a entidade para o DTO de resposta
         private ProdutoResponseDto MapearProdutoParaResponseDto(Produto produto)
@@ -80,9 +79,9 @@ namespace AVANADE.ESTOQUE.API.Services.ProdutoServices
                 produto.QuantidadeEstoque,
                 produto.EstaAtivo,
                 produto.MarcaId,
-                produto.Marca?.Nome,
+                produto.Marca!.Nome,
                 produto.CategoriaId,
-                produto.Categoria?.Nome,
+                produto.Categoria!.Nome,
                 produto.Avaliacoes?.Select(a => new AvaliacaoResponseDto(a.Id, a.ProdutoId, a.NomeAutor, "", a.Comentario, a.Nota, a.DataEnvio)).ToList() ?? new List<AvaliacaoResponseDto>(),
                 produto.Imagens?.Select(i => new ProdutoImagemDto(i.UrlImagem, i.TextoAlternativo, i.Ordem)).OrderBy(i => i.Ordem).ToList() ?? new List<ProdutoImagemDto>(),
                 produto.Especificacoes?.Select(e => new ProdutoEspecificacaoDto(e.Chave, e.Valor)).ToList() ?? new List<ProdutoEspecificacaoDto>()

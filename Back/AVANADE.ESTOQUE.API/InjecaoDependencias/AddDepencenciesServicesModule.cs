@@ -1,27 +1,31 @@
 ﻿using AVANADE.ESTOQUE.API.Data;
+using AVANADE.ESTOQUE.API.Services.MarcaServices;
 using AVANADE.ESTOQUE.API.Services.ProdutoServices;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Repositories;
 
 namespace AVANADE.ESTOQUE.API.InjecaoDependencias
 {
-    public  static class AddDepencenciesServicesModule
+    public static class AddDepencenciesServicesModule
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             //Produto
             services.AddScoped(typeof(GravarProdutoService));
             services.AddScoped(typeof(ValidarProdutoService));
-            services.AddScoped(typeof(ObterProdutoService));  
-            services.AddScoped(typeof(ExcluirProdutoService));              
-           
+            services.AddScoped(typeof(ObterProdutoService));
+            services.AddScoped(typeof(ExcluirProdutoService));
+
             //Fornecedor
 
             //Marca
+            services.AddScoped(typeof(GravarMarcaService));
+            services.AddScoped(typeof(ValidarMarcaService));
+            services.AddScoped(typeof(ObterMarcaService));
 
             //Categoria
 
             return services;
-           
+
         }
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {

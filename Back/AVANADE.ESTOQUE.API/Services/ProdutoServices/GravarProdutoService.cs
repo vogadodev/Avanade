@@ -33,7 +33,7 @@ public class GravarProdutoService : RetornoPadraoService
             return;
         }
 
-        var produto = await _produtoRepository.ObterPorIdComRelacionamentosAsync(dto.Id);
+        Produto produto = null; //await _produtoRepository.ObterPorIdComRelacionamentosAsync(dto.Id);
 
         if (produto != null)
         {
@@ -41,7 +41,7 @@ public class GravarProdutoService : RetornoPadraoService
             await AtualizarImagens(dto, produto, novasImagens);
             AtualizarEspecificacoes(dto, produto);
 
-            _produtoRepository.Update(produto);
+            _produtoRepository.DbSet.Update(produto);
         }
         else
         {
@@ -50,17 +50,17 @@ public class GravarProdutoService : RetornoPadraoService
             produto.Imagens = await SalvarNovasImagens(novasImagens, produto.Id);
             produto.Especificacoes = MapearEspecificacoesDtoParaEntidade(dto.Especificacoes, produto.Id);
 
-            await _produtoRepository.AddAsync(produto);
+            await _produtoRepository.DbSet.AddAsync(produto);
         }
 
-        await _produtoRepository.SaveChangesAsync();
+        await _produtoRepository.DbContext.SaveChangesAsync();
     }
 
     private void MapearDtoParaProduto(ProdutoRequestDto dto, Produto produto)
     {
         produto.Nome = dto.Nome!;
         produto.Descricao = dto.Descricao!;
-        produto.CodigoUnico = dto.CodigoUnico;
+        produto.CodigoUnico = dto.CodigoUnico!;
         produto.Preco = dto.Preco;
         produto.PrecoPromocional = dto.PrecoPromocional;
         produto.EstaEmPromocao = dto.EstaEmPromocao;
@@ -77,17 +77,15 @@ public class GravarProdutoService : RetornoPadraoService
         var urlsImagensDto = dto.Imagens?.Select(i => i.UrlImagem).Where(url => !string.IsNullOrEmpty(url)).ToList() ?? new List<string>();
         var imagensAtuais = produto.Imagens.ToList();
 
-        //Remover imagens que não estão mais no DTO
         var imagensParaRemover = imagensAtuais.Where(imgDb => !urlsImagensDto.Contains(imgDb.UrlImagem)).ToList();
         foreach (var imagemRemover in imagensParaRemover)
         {
-            // Remover arquivo físico
+       
             RemoverArquivoImagem(imagemRemover.UrlImagem);
-            // Remover da coleção
+          
             produto.Imagens.Remove(imagemRemover);
         }
-
-        //Adicionar novas imagens (IFormFile)
+     
         var imagensSalvas = await SalvarNovasImagens(novasImagens, produto.Id);
         foreach (var novaImagem in imagensSalvas)
         {
@@ -121,7 +119,7 @@ public class GravarProdutoService : RetornoPadraoService
                     await formFile.CopyToAsync(stream);
                 }
 
-                // URL relativa para salvar no banco
+               
                 string urlRelativa = Path.Combine("/", _imagensBasePath, nomeUnico).Replace("\\", "/");
 
                 listaEntidadesImagem.Add(new ProdutoImagem
@@ -130,7 +128,7 @@ public class GravarProdutoService : RetornoPadraoService
                     ProdutoId = produtoId,
                     UrlImagem = urlRelativa,
                     TextoAlternativo = formFile.FileName,
-                    Ordem = ordem++ // Incrementa a ordem
+                    Ordem = ordem++ 
                 });
             }
         }

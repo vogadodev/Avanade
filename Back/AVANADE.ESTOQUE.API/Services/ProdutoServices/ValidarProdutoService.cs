@@ -36,13 +36,13 @@ namespace AVANADE.ESTOQUE.API.Services.ProdutoServices
             ValidarCampoMarcaObrigatorio(dto);
             ValidarCampoCategoriaObrigatorio(dto);
             
-            if (!Mensagens.TemErros())
-            {
-                await ValidarSeCodigoUnicoExiste(dto);
-                await ValidarSeCategoriaExiste(dto);
-                await ValidarSeFornecedorExiste(dto);
+            //if (!Mensagens.TemErros())
+            //{
+            //    await ValidarSeCodigoUnicoExiste(dto);
+            //    await ValidarSeCategoriaExiste(dto);
+            //    await ValidarSeFornecedorExiste(dto);
 
-            }
+            //}
            
 
             return Mensagens.TemErros();
@@ -65,7 +65,7 @@ namespace AVANADE.ESTOQUE.API.Services.ProdutoServices
 
         private void ValidarCampoCodigoUnicoObrigatorio(ProdutoRequestDto dto)
         {
-            Mensagens.AdicionarErroSe(dto.CodigoUnico <= 0, ProdutoResourcer.CodigoUnicoObrigatorio);
+            Mensagens.AdicionarErroSe(string.IsNullOrEmpty(dto.CodigoUnico), ProdutoResourcer.CodigoUnicoObrigatorio);
         }
 
         private void ValidarCampoFornecedorObrigatorio(ProdutoRequestDto dto)

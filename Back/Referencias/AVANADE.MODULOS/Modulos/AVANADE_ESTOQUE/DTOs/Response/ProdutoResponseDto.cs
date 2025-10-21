@@ -4,7 +4,7 @@
         Guid Id,
         string Nome,
         string Descricao,
-        long CodigoUnico,
+        string CodigoUnico,
         decimal Preco,
         decimal? PrecoPromocional,
         bool EstaEmPromocao,

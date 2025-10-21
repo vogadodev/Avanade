@@ -1,9 +1,7 @@
 ﻿using AVANADE.ESTOQUE.API.Services.ProdutoServices;
 using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.DTOs.Request;
-using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.DTOs.Response;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace AVANADE.ESTOQUE.API.Controllers
 {
@@ -21,20 +19,14 @@ namespace AVANADE.ESTOQUE.API.Controllers
         {
             _gravarProdutoService = gravarProdutoService;
             _obterProdutoService = obterProdutoService;
-        }       
+        }
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> CriarProduto(
-            [FromForm] string produtoJson, 
-            [FromForm] List<IFormFile>? imagens) 
-        {           
-                          
-              var  dto = JsonSerializer.Deserialize<ProdutoRequestDto>(produtoJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });               
-                     
-              await _gravarProdutoService.GravarProduto(dto, imagens);
-              return _gravarProdutoService.ResponderRequest(this); 
-          
+        public async Task<IActionResult> CriarProduto([FromForm] ProdutoRequestDto dto, [FromForm] List<IFormFile>? imagens)
+        {
+            await _gravarProdutoService.GravarProduto(dto, imagens);
+            return _gravarProdutoService.ResponderRequest(this);
         }
 
         [HttpGet("{id}")]
@@ -46,27 +38,28 @@ namespace AVANADE.ESTOQUE.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> ObterProdutos(
+            [FromQuery] int pagina,
+            [FromQuery] int qtdItensPagina,
             [FromQuery] string? nome,
             [FromQuery] string? nomeCategoria,
             [FromQuery] bool? emPromocao)
         {
-            IEnumerable<ProdutoResponseDto> produtos;
 
             if (!string.IsNullOrWhiteSpace(nome))
             {
-               await _obterProdutoService.ObterPorNome(nome);
+                await _obterProdutoService.ObterPorNome(nome, pagina, qtdItensPagina);
             }
-            else if (!string .IsNullOrEmpty(nomeCategoria))
+            else if (!string.IsNullOrEmpty(nomeCategoria))
             {
-              await _obterProdutoService.ObterPorCategoria(nomeCategoria);
+                await _obterProdutoService.ObterPorCategoria(nomeCategoria, pagina, qtdItensPagina);
             }
             else if (emPromocao.HasValue && emPromocao.Value)
             {
-               await _obterProdutoService.ObterEmPromocao();
+                await _obterProdutoService.ObterEmPromocao(pagina, qtdItensPagina);
             }
             else
             {
-              await _obterProdutoService.ObterTodos();
+                await _obterProdutoService.ObterTodos(pagina, qtdItensPagina);
             }
 
             return _obterProdutoService.ResponderRequest(this);
