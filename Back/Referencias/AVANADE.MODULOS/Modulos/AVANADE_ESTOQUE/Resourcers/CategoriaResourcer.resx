@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DescricaoObrigatorio" xml:space="preserve">
+    <value>Campo descrição é obrigatório.</value>
+  </data>
   <data name="NomeJaCadastrado" xml:space="preserve">
     <value>Nome da categoria já existe.</value>
   </data>
   <data name="NomeObrigatorio" xml:space="preserve">
-    <value>Nome é obrigatório.</value>
+    <value>Campo Nome é obrigatório.</value>
   </data>
 </root>

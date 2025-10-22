@@ -61,7 +61,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Resourcers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Campo CPNJ está invalido, o formato deve ser &quot;XX.XXX.XXX/XXXX-XX&quot;..
+        ///   Looks up a localized string similar to Campo CPNJ está invalido, o formato deve ser XX.XXX.XXX/XXXX-XX..
         /// </summary>
         public static string CNPJInvalido {
             get {
@@ -124,7 +124,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Resourcers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Campo telefone inválido, o formato deve ser &quot;(DD) 9 9999-9999&quot;..
+        ///   Looks up a localized string similar to Campo telefone inválido, o formato deve ser (DD) 9 9999-9999..
         /// </summary>
         public static string TelefoneInvalido {
             get {

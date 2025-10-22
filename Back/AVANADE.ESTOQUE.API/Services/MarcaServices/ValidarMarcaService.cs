@@ -16,11 +16,11 @@ namespace AVANADE.ESTOQUE.API.Services.MarcaServices
             _marcaRepository = marcaRepository;
         }
 
-        public async Task<bool> Validar(MarcaRequestDto dto)
+        public async Task<bool> Validar(MarcaRequestDto dto , bool ehAtualizacao)
         {
             ValidarCampoNomeObrigatorio(dto);
             
-            if (!Mensagens.TemErros())
+            if (!Mensagens.TemErros() && !ehAtualizacao)
             {
                 await ValidarSeNomeJaExiste(dto);
             }

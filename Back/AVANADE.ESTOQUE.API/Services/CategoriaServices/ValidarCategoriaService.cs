@@ -16,11 +16,12 @@ namespace AVANADE.ESTOQUE.API.Services.CategoriaServices
             _categoriaRepository = categoriaRepository;
         }
 
-        public async Task<bool> Validar(CategoriaRequestDto dto)
+        public async Task<bool> Validar(CategoriaRequestDto dto, bool ehAtualizacao)
         {
             ValidarCampoNomeObrigatorio(dto);
+            ValidarCampoDescricao(dto);
 
-            if (!Mensagens.TemErros())
+            if (!Mensagens.TemErros() && !ehAtualizacao)
             {
                 await ValidarSeNomeJaExiste(dto);
             }
@@ -31,6 +32,11 @@ namespace AVANADE.ESTOQUE.API.Services.CategoriaServices
         private void ValidarCampoNomeObrigatorio(CategoriaRequestDto dto)
         {
             Mensagens.AdicionarErroSe(string.IsNullOrWhiteSpace(dto.Nome), CategoriaResourcer.NomeObrigatorio);
+        }
+      
+        private void ValidarCampoDescricao(CategoriaRequestDto dto)
+        {
+            Mensagens.AdicionarErroSe(string.IsNullOrWhiteSpace(dto.Descricao), CategoriaResourcer.DescricaoObrigatorio);
         }
 
         private async Task ValidarSeNomeJaExiste(CategoriaRequestDto dto)

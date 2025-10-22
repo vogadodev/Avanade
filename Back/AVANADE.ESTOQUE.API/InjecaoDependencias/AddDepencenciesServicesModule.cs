@@ -1,4 +1,6 @@
 ﻿using AVANADE.ESTOQUE.API.Data;
+using AVANADE.ESTOQUE.API.Services.CategoriaServices;
+using AVANADE.ESTOQUE.API.Services.FronecedorServices;
 using AVANADE.ESTOQUE.API.Services.MarcaServices;
 using AVANADE.ESTOQUE.API.Services.ProdutoServices;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Repositories;
@@ -16,13 +18,22 @@ namespace AVANADE.ESTOQUE.API.InjecaoDependencias
             services.AddScoped(typeof(ExcluirProdutoService));
 
             //Fornecedor
+            services.AddScoped(typeof(GravarFornecedorService));
+            services.AddScoped(typeof(ValidarFornecedorService));
+            services.AddScoped(typeof(ObterFornecedorService));
+            services.AddScoped(typeof(ExcluirFornecedorService));
 
             //Marca
             services.AddScoped(typeof(GravarMarcaService));
             services.AddScoped(typeof(ValidarMarcaService));
             services.AddScoped(typeof(ObterMarcaService));
+            services.AddScoped(typeof(ExcluirMarcaService));
 
             //Categoria
+            services.AddScoped(typeof(GravarCategoriaService));
+            services.AddScoped(typeof(ValidarCategoriaService));
+            services.AddScoped(typeof(ObterCategoriaService));
+            services.AddScoped(typeof(ExcluirCategoriaService));
 
             return services;
 

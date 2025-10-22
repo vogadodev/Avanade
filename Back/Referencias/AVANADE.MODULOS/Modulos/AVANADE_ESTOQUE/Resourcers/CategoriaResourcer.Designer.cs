@@ -61,6 +61,15 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Resourcers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Campo descrição é obrigatório..
+        /// </summary>
+        public static string DescricaoObrigatorio {
+            get {
+                return ResourceManager.GetString("DescricaoObrigatorio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nome da categoria já existe..
         /// </summary>
         public static string NomeJaCadastrado {
@@ -70,7 +79,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Resourcers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nome é obrigatório..
+        ///   Looks up a localized string similar to Campo Nome é obrigatório..
         /// </summary>
         public static string NomeObrigatorio {
             get {

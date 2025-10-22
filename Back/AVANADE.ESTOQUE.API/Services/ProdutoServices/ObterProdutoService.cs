@@ -32,35 +32,14 @@ namespace AVANADE.ESTOQUE.API.Services.ProdutoServices
             Data = MapearProdutoParaResponseDto(produto);
         }
 
-        public async Task ObterTodos(int pagina, int qtdItensPagina)
+        public async Task ObterProdutosPaginadoComFiltro(int pagina, int qtdItensPagina, string? nome, string? nomeMarca, string? nomeCategoria, bool? estaEmPromocao)
         {
-            var produtos = await _produtoRepository.ObterTodosComRelacionamentosAsync(pagina, qtdItensPagina);
-            Data = produtos.Select(MapearProdutoParaResponseDto);
-        }
-
-        public async Task ObterPorNome(string nome, int pagina, int qtdItensPagina)
-        {
-            var produtos = await _produtoRepository.ObterCompletoPeloNomeAsync(nome, pagina, qtdItensPagina);
+            var produtos = await _produtoRepository.ObterProdutosPaginadoComFiltrosAsync(pagina, qtdItensPagina, nome, nomeMarca, nomeCategoria, estaEmPromocao);
             Encontrado = produtos.Any();
             if (Encontrado)
-                Data = produtos!.Select(MapearProdutoParaResponseDto);
-        }        
-
-        public async Task ObterPorCategoria(string nomeCategoria, int pagina, int qtdItensPagina)
-        {
-            var produtos = await _produtoRepository.ObterCompletoPeloCategoriaAsync(nomeCategoria, pagina, qtdItensPagina);
-            Encontrado = produtos.Any();
-            if (Encontrado)
-                Data = produtos!.Select(MapearProdutoParaResponseDto);
+                Data = produtos.Select(MapearProdutoParaResponseDto);
         }
-
-        public async Task ObterEmPromocao(int pagina, int qtdItensPagina)
-        {
-            var produtos = await _produtoRepository.ObterCompletoEmPromocaoAsync(pagina, qtdItensPagina);
-            Encontrado = produtos.Any();
-            if (Encontrado)
-                Data = produtos!.Select(MapearProdutoParaResponseDto);
-        }
+        
 
         // Método auxiliar para mapear a entidade para o DTO de resposta
         private ProdutoResponseDto MapearProdutoParaResponseDto(Produto produto)

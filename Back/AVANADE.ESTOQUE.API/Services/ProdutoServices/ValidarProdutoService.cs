@@ -22,7 +22,7 @@ namespace AVANADE.ESTOQUE.API.Services.ProdutoServices
             _fornecedorRepository = fornecedorRepository;
             _marcaRepository = marcaRepository;
         }
-        public async Task<bool> ValidarProduto(ProdutoRequestDto dto)
+        public async Task<bool> ValidarProduto(ProdutoRequestDto dto, bool ehAtualizacao)
         {
             ValidarCampoNomeObrigatorio(dto);
             ValidarCampoDescricaoObrigatorio(dto);
@@ -35,15 +35,17 @@ namespace AVANADE.ESTOQUE.API.Services.ProdutoServices
             ValidarCampoEstaAtivoObrigatorio(dto);
             ValidarCampoMarcaObrigatorio(dto);
             ValidarCampoCategoriaObrigatorio(dto);
-            
-            //if (!Mensagens.TemErros())
-            //{
-            //    await ValidarSeCodigoUnicoExiste(dto);
-            //    await ValidarSeCategoriaExiste(dto);
-            //    await ValidarSeFornecedorExiste(dto);
 
-            //}
-           
+            if (!Mensagens.TemErros())
+            {               
+                await ValidarSeCategoriaExiste(dto);
+                await ValidarSeFornecedorExiste(dto);
+            }
+
+            if (!Mensagens.TemErros() && !ehAtualizacao)
+            {
+                await ValidarSeCodigoUnicoExiste(dto);
+            }
 
             return Mensagens.TemErros();
         }

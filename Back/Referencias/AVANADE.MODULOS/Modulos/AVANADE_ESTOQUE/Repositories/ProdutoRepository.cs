@@ -17,57 +17,33 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Repositories
             .AsSplitQuery()
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id);
-        public async Task<IEnumerable<Produto>> ObterTodosComRelacionamentosAsync(int pagina, int qtdItensPagina) =>
-            await DbSet.Include(p => p.Marca)
-            .Include(p => p.Categoria)
-            .Include(p => p.Avaliacoes)
-            .Include(p => p.Imagens)
-            .Include(p => p.Especificacoes)
-            .OrderBy(p => p.EstaEmPromocao == true)
-            .AsNoTracking()
-            .Skip(qtdItensPagina * (pagina - 1))
-            .Take(qtdItensPagina)
-            .ToListAsync();
-
-        public async Task<IEnumerable<Produto>> ObterCompletoPeloNomeAsync(string nome, int pagina, int qtdItensPagina) =>
-            await DbSet.Include(p => p.Marca)
+        public async Task<IEnumerable<Produto>> ObterProdutosPaginadoComFiltrosAsync(
+          int pagina,
+          int qtdItensPagina,
+          string? nome,
+          string? nomeMarca,
+          string? nomeCategoria,
+          bool? emPromocao)
+        {
+            return await DbSet
+                .Include(p => p.Marca)
                 .Include(p => p.Categoria)
                 .Include(p => p.Avaliacoes)
                 .Include(p => p.Imagens)
                 .Include(p => p.Especificacoes)
-                .Where(p => p.Nome.
-                 Contains(nome))
-                .OrderBy(p => p.EstaEmPromocao == true)
+                .AsNoTracking()
+                .Where(p =>
+
+                    (string.IsNullOrWhiteSpace(nome) || p.Nome.Contains(nome)) &&
+                    (string.IsNullOrWhiteSpace(nomeMarca) || (p.Marca != null && p.Marca.Nome.Contains(nomeMarca))) &&
+                    (string.IsNullOrWhiteSpace(nomeCategoria) || (p.Categoria != null && p.Categoria.Nome.Contains(nomeCategoria))) &&
+                    (!emPromocao.HasValue || p.EstaEmPromocao == emPromocao.Value)
+                )
+                .OrderByDescending(p => p.EstaEmPromocao)
                 .Skip(qtdItensPagina * (pagina - 1))
                 .Take(qtdItensPagina)
-                .AsNoTracking()
                 .ToListAsync();
-
-        public async Task<IEnumerable<Produto>> ObterCompletoPeloCategoriaAsync(string categoria, int pagina, int qtdItensPagina) =>
-            await DbSet.Include(p => p.Marca)
-               .Include(p => p.Categoria)
-               .Include(p => p.Avaliacoes)
-               .Include(p => p.Imagens)
-               .Include(p => p.Especificacoes)
-               .Where(p => p.Categoria!.Nome.Contains(categoria))
-               .OrderBy(p => p.EstaEmPromocao == true)
-               .Skip(qtdItensPagina * (pagina - 1))
-               .Take(qtdItensPagina)
-               .AsNoTracking()
-               .ToListAsync();
-
-        public async Task<IEnumerable<Produto>> ObterCompletoEmPromocaoAsync(int pagina, int qtdItensPagina) =>
-            await DbSet.Include(p => p.Marca)
-              .Include(p => p.Categoria)
-              .Include(p => p.Avaliacoes)
-              .Include(p => p.Imagens)
-              .Include(p => p.Especificacoes)
-              .Where(p => p.EstaEmPromocao == true)
-              .OrderBy(p => p.EstaEmPromocao == true)
-              .Skip(qtdItensPagina * (pagina - 1))
-              .Take(qtdItensPagina)
-              .AsNoTracking()
-              .ToListAsync();
+        }
     }
 }
 

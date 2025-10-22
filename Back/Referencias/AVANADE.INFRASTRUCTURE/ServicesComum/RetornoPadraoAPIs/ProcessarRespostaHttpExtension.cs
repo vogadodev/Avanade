@@ -17,7 +17,7 @@ namespace AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs
             var servicoComBuscaPadrao = servico as IServicoComBuscaPadrao;
             if (servicoComBuscaPadrao != null && !servicoComBuscaPadrao.Encontrado)
             {
-                return controller.NotFound(retorno);
+                return controller.NoContent();
             }           
                        
             var servicoDeGravacaoPadrao = servico as IServicoDeGravacaoPadrao;

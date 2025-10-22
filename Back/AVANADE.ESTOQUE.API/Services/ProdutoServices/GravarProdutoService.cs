@@ -26,7 +26,10 @@ public class GravarProdutoService : RetornoPadraoService
 
     public async Task GravarProduto(ProdutoRequestDto dto, List<IFormFile>? novasImagens)
     {
-        var dtoProdutoTemErros = await _validarProdutoService.ValidarProduto(dto);
+        var produto = await _produtoRepository.ObterPorIdComRelacionamentosAsync(dto.Id);
+        var ehAtualizacao = produto != null;
+        
+        var dtoProdutoTemErros = await _validarProdutoService.ValidarProduto(dto, ehAtualizacao);
         
         if (dtoProdutoTemErros)
         {
@@ -34,15 +37,14 @@ public class GravarProdutoService : RetornoPadraoService
             return;
         }
 
-        var produto = await _produtoRepository.ObterPorIdComRelacionamentosAsync(dto.Id);
 
-        if (produto != null)
+        if (ehAtualizacao)
         {
-            MapearDtoParaProduto(dto, produto);
-            await AtualizarImagens(dto, produto, novasImagens);
-            AtualizarEspecificacoes(dto, produto);
+            MapearDtoParaProduto(dto, produto!);
+            await AtualizarImagens(dto, produto!, novasImagens);
+            AtualizarEspecificacoes(dto, produto!);
 
-            _produtoRepository.DbSet.Update(produto);
+            _produtoRepository.DbSet.Update(produto!);
         }
         else
         {

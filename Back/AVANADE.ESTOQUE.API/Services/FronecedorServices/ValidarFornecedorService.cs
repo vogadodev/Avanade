@@ -18,7 +18,7 @@ namespace AVANADE.ESTOQUE.API.Services.FronecedorServices
             _fornecedorRepository = fornecedorRepository;
         }
 
-        public async Task<bool> Validar(FornecedorRequestDto dto)
+        public async Task<bool> Validar(FornecedorRequestDto dto, bool ehAtualizacao)
         {
             ValidarCampoNomeObrigatorio(dto);
             ValidarCampoCNPJObrigatorio(dto);
@@ -27,7 +27,7 @@ namespace AVANADE.ESTOQUE.API.Services.FronecedorServices
             ValidarCampoTelefoneObrigatorio(dto);
             ValidarCampoNomeFantasiaObrigatorio(dto);
 
-            if (!Mensagens.TemErros())
+            if (!Mensagens.TemErros() && !ehAtualizacao)
             {
                 await ValidarSeCnpjJaExiste(dto);
             }
@@ -90,11 +90,8 @@ namespace AVANADE.ESTOQUE.API.Services.FronecedorServices
             }
         }
         private async Task ValidarSeCnpjJaExiste(FornecedorRequestDto dto)
-        {
-
-            var cnpjNormalizado = new string(dto.CNPJ.Where(char.IsDigit).ToArray());
-
-            if (await _fornecedorRepository.ValidarExistenciaAsync(f => f.CNPJ == cnpjNormalizado))
+        {   
+            if (await _fornecedorRepository.ValidarExistenciaAsync(f => f.CNPJ == dto.CNPJ))
             {
                 Mensagens.AdicionarErro(string.Format(FornecedorResourcer.CnpjJaCadastrado, dto.CNPJ));
             }

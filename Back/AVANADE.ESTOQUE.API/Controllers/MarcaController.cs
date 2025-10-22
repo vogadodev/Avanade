@@ -9,21 +9,30 @@ namespace AVANADE.ESTOQUE.API.Controllers
     [Route("api/v1/[controller]")]
     public class MarcaController : ControllerBase
     {
+        private readonly GravarMarcaService _gravarMarcaService;
         private readonly ObterMarcaService _obterMarcaService;
-        public MarcaController(ObterMarcaService obterMarcaService)
+        private readonly ExcluirMarcaService _excluirMarcaService;
+
+        public MarcaController(
+              GravarMarcaService gravarMarcaService
+            , ObterMarcaService obterMarcaService
+            , ExcluirMarcaService excluirMarcaService)
         {
-            _obterMarcaService = obterMarcaService;           
+            _gravarMarcaService = gravarMarcaService;
+            _obterMarcaService = obterMarcaService;
+            _excluirMarcaService = excluirMarcaService;
         }
 
         [HttpPost]
         public async Task<IActionResult> GravarMarca(MarcaRequestDto dto)
         {
-            //TODO-IMPLEMENTAR METODO DE GRAVAÇÃO
+            await _gravarMarcaService.GravarMarca(dto);
+            return _gravarMarcaService.ResponderRequest(this);
 
-                return Ok();
         }
+
         [HttpGet("{nome}")]
-        public async Task<IActionResult>ObterMarcaPorNome(string nome)
+        public async Task<IActionResult> ObterMarcaPorNome(string nome)
         {
             await _obterMarcaService.ObterPorNome(nome);
             return _obterMarcaService.ResponderRequest(this);
@@ -34,6 +43,13 @@ namespace AVANADE.ESTOQUE.API.Controllers
         {
             await _obterMarcaService.ObterTodas(pagina, qtdItensPagina);
             return _obterMarcaService.ResponderRequest(this);
+        }
+
+        [HttpDelete("{idMarca}")]
+        public async Task<IActionResult> ExcluirMarca(Guid idMarca)
+        {
+            await _excluirMarcaService.ExcluirMarca(idMarca);
+            return _excluirMarcaService.ResponderRequest(this);
         }
 
     }
