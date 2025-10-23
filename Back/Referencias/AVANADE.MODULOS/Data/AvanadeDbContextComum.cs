@@ -11,9 +11,7 @@ namespace AVANADE.MODULOS.Data
         {
             base.OnModelCreating(modelBuilder);
             InjetarMapsDbContextComum.AddEntitiesMapsDbContextCommon(modelBuilder);
-            InjetarMapsDbContextComum.AddDTOsMapsDbContextCommon(modelBuilder);
-            InjecaoDbEstoqueMaps.AddEntidadesMapsEstoque(modelBuilder);
-            InjecaoDbEstoqueMaps.AddDTOsMapsEstoque(modelBuilder);
+            InjetarMapsDbContextComum.AddDTOsMapsDbContextCommon(modelBuilder);           
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

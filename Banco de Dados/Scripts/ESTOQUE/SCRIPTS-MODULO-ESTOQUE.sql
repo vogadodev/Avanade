@@ -3,12 +3,13 @@
 -- DIALETO: SQL Server
 -- Documentação feita por Marcus Vogado do Lago
 -- =============================================================================
---Execute esse comando para criarção de um novo data base, após isso abra uma nova janela de consulta no banco de dados que foi criado
+--INFORMAÇÕES DE ACESSO AO BANCO DE DADOS DE ESTOQUE
 --Aqui está a configuração para acessar o SQLServer Studio 
---Servidor:
+--Nome do Servidor:localhost,1435
 --Usuario: sa
 --Password:SuaSenhaF0rteAqui!
- 
+
+ --Execute esse comando para criarção de um novo data base, após isso abra uma nova janela de consulta no banco de dados que foi criado
 CREATE DATABASE  AvanadeEstoqueDb;
 
 --Abra uma nova aba após a criação do BD e executes esses comandos: 

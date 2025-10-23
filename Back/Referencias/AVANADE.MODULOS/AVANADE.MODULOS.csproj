@@ -9,8 +9,11 @@
   <ItemGroup>
     <Folder Include="Modulos\AVANADE_COMUM\Maps\" />
     <Folder Include="Modulos\AVANADE_ESTOQUE\Enums\" />
-    <Folder Include="Modulos\AVANADE_VENDAS\" />
     <Folder Include="Modulos\AVANADE_MENSSAGERIA\" />
+    <Folder Include="Modulos\AVANADE_USUARIO\DTOs\Response\" />
+    <Folder Include="Modulos\AVANADE_VENDAS\DTOs\" />
+    <Folder Include="Modulos\AVANADE_VENDAS\Extensions\" />
+    <Folder Include="Modulos\AVANADE_VENDAS\Resourcers\" />
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.19" />
@@ -26,10 +29,10 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />		
 	</ItemGroup>
 	<ItemGroup>
-	  <Compile Update="Modulos\AVANADE_COMUM\Resourcers\LoginResource.Designer.cs">
+	  <Compile Update="Modulos\AVANADE_COMUM\Resourcers\ComumResource.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
-	    <DependentUpon>LoginResource.resx</DependentUpon>
+	    <DependentUpon>ComumResource.resx</DependentUpon>
 	  </Compile>
 	  <Compile Update="Modulos\AVANADE_ESTOQUE\Resourcers\CategoriaResourcer.Designer.cs">
 	    <DesignTime>True</DesignTime>
@@ -53,9 +56,9 @@
 	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
-	  <EmbeddedResource Update="Modulos\AVANADE_COMUM\Resourcers\LoginResource.resx">
+	  <EmbeddedResource Update="Modulos\AVANADE_COMUM\Resourcers\ComumResource.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>LoginResource.Designer.cs</LastGenOutput>
+	    <LastGenOutput>ComumResource.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	  <EmbeddedResource Update="Modulos\AVANADE_ESTOQUE\Resourcers\CategoriaResourcer.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>

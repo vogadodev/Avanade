@@ -22,12 +22,12 @@ namespace AVANADE.AUTH.API.Services.LoginServices
         private void ValidarCampoSenha(LoginRequestDto loginRequest)
         {
             if (string.IsNullOrWhiteSpace(loginRequest.Password))
-                Mensagens.AdicionarErro(LoginResource.SenhaObrigatoria);
+                Mensagens.AdicionarErro(ComumResource.SenhaObrigatoria);
         }
         private void ValidarCampoEmail(LoginRequestDto loginRequest)
         {
             if (string.IsNullOrWhiteSpace(loginRequest.Email))
-                Mensagens.AdicionarErro(LoginResource.EmailObrigatorio);
+                Mensagens.AdicionarErro(ComumResource.EmailObrigatorio);
         }
     }
 }

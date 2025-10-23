@@ -1,6 +1,8 @@
 ﻿using AVANADE.ESTOQUE.API.Services.CategoriaServices;
+using AVANADE.INFRASTRUCTURE.ServicesComum.AuthServices;
 using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AVANADE.ESTOQUE.API.Controllers
@@ -22,14 +24,16 @@ namespace AVANADE.ESTOQUE.API.Controllers
             _obterCategoriaService = obterCategoriaService;
             _excluirCategoriaService = excluirCategoriaService;
         }
-        
+
+        [Authorize(Policy = PoliciesTipoUsuario.ApenasAdm)]
         [HttpPost]
         public async Task<IActionResult> GravarCategoria(CategoriaRequestDto dto)
         {
             await _gravarCategoriaService.GravarCategoria(dto);
             return _gravarCategoriaService.ResponderRequest(this);
         }
-        
+
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpGet("{nome}")]
         public async Task<IActionResult>ObterCategoriaPorNome(string nome)
         {
@@ -37,6 +41,7 @@ namespace AVANADE.ESTOQUE.API.Controllers
             return _obterCategoriaService.ResponderRequest(this);
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpGet("obterTodasComSubCategorias")]
         public async Task<IActionResult> ObterTodasComSubCategorias()
         {
@@ -44,6 +49,7 @@ namespace AVANADE.ESTOQUE.API.Controllers
             return _obterCategoriaService.ResponderRequest(this);
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpGet("obterTodasSemSubCategorias")]
         public async Task<IActionResult> ObterTodasSemSubCategorias()
         {
@@ -51,6 +57,7 @@ namespace AVANADE.ESTOQUE.API.Controllers
             return _obterCategoriaService.ResponderRequest(this);
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.ApenasAdm)]
         [HttpDelete("{categoriaId}")]
         public async Task<IActionResult> ExcluirCategoria(Guid categoriaId)
         {

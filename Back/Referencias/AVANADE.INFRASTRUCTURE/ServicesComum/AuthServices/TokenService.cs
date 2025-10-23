@@ -53,8 +53,8 @@ namespace AVANADE.INFRASTRUCTURE.ServicesComum.AuthServices
                 ID = CriarIDService.CriarNovoID(),
                 IDUsuario = IDUsuario,
                 Token = GenerateRandomTokenString(),
-                Expires = DateTime.UtcNow.AddDays(_jwtOptions.RefreshTokenExpirationDays),
-                Created = DateTime.UtcNow,
+                Expires = DateTime.Now.AddDays(_jwtOptions.RefreshTokenExpirationDays),
+                Created = DateTime.Now,
                 IsUsed = false,
                 IsRevoked = null
             };

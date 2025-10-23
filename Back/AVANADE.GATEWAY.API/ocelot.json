@@ -1,9 +1,42 @@
 {
   "Routes": [
+    
+    /*======================================================
+      ROTA DE SWAGGER (PARA ABRIR A UI DO AGREGADOR)
+    ======================================================*/
+    {
+      "RouteKey": "swagger_root",
+      "UpstreamPathTemplate": "/swagger",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/swagger/index.html",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "avanade-gateway-api",
+          "Port": 8080
+        }
+      ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "RouteKey": "swagger_everything",
+      "UpstreamPathTemplate": "/swagger/{everything}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/swagger/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "avanade-gateway-api",
+          "Port": 8080
+        }
+      ]
+    },
+
     /*======================================================
       AUTH API
     ======================================================*/
     {
+      "RouteKey": "auth_route",
       "UpstreamPathTemplate": "/api/auth/{everything}",
       "UpstreamHttpMethod": [ "Post", "Get" ],
       "DownstreamPathTemplate": "/api/v1/{everything}",
@@ -21,7 +54,8 @@
       USUARIO API
     ======================================================*/
     {
-      "UpstreamPathTemplate": "/api/usuarios/{everything}",
+      "RouteKey": "usuario_route",
+      "UpstreamPathTemplate": "/api/usuario/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "DownstreamPathTemplate": "/api/v1/{everything}",
       "DownstreamScheme": "http",
@@ -38,6 +72,7 @@
       ESTOQUE API
     ======================================================*/
     {
+      "RouteKey": "estoque_route",
       "UpstreamPathTemplate": "/api/estoque/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "DownstreamPathTemplate": "/api/v1/{everything}",
@@ -55,6 +90,7 @@
       VENDAS API
     ======================================================*/
     {
+      "RouteKey": "vendas_route",
       "UpstreamPathTemplate": "/api/vendas/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "DownstreamPathTemplate": "/api/v1/{everything}",
@@ -72,9 +108,9 @@
   /*======================================================
     CONFIGURAÇÃO DO SWAGGER AGREGADO
   ======================================================*/
-  "SwaggerEndPoints": [
+  "SwaggerEndPoints": [    
     {
-      "Key": "auth-api",      
+      "Key": "auth-api",
       "Config": [
         {
           "Name": "API de Autenticação",
@@ -84,7 +120,7 @@
       ]
     },
     {
-      "Key": "usuario-api",      
+      "Key": "usuario-api",
       "Config": [
         {
           "Name": "API de Usuário",
@@ -104,7 +140,7 @@
       ]
     },
     {
-      "Key": "vendas-api",     
+      "Key": "vendas-api",
       "Config": [
         {
           "Name": "API de Vendas",

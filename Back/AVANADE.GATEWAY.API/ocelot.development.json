@@ -1,0 +1,142 @@
+{
+  "Routes": [
+    /*======================================================
+     ROTA DE SWAGGER (PARA ABRIR A UI DO AGREGADOR)
+    ======================================================*/
+    {
+      "RouteKey": "swagger_root", 
+      "UpstreamPathTemplate": "/swagger",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/swagger/index.html",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000 
+        }
+      ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "RouteKey": "swagger_everything",
+      "UpstreamPathTemplate": "/swagger/{everything}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/swagger/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000 
+        }
+      ]
+    },
+    /*======================================================
+      AUTH API - AMBIENTE LOCAL
+    ======================================================*/
+    {
+      "RouteKey": "auth_route",
+      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7226
+        }
+      ]
+    },
+
+    /*======================================================
+      USUARIO API - AMBIENTE LOCAL
+    ======================================================*/
+    {
+      "RouteKey": "usuario_route",
+      "UpstreamPathTemplate": "/api/usuarios/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7209
+        }
+      ]
+    },
+
+    /*======================================================
+      ESTOQUE API - AMBIENTE LOCAL
+    ======================================================*/
+    {
+      "RouteKey": "estoque_route",
+      "UpstreamPathTemplate": "/api/estoque/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7195
+        }
+      ]
+    },
+
+    /*======================================================
+      VENDAS API - AMBIENTE LOCAL
+    ======================================================*/
+    {
+      "RouteKey": "vendas_route",
+      "UpstreamPathTemplate": "/api/vendas/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7194
+        }
+      ]
+    }
+  ],
+
+  /*======================================================
+    CONFIGURAÇÃO DO SWAGGER AGREGADO LOCAL
+  ======================================================*/
+  "SwaggerEndPoints": [
+    {
+      "Key": "usuario-api",
+      "Config": [
+        {
+          "Name": "API de Usuário",
+          "Version": "v1",
+          "Url": "https://localhost:7209/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "auth-api",
+      "Config": [
+        {
+          "Name": "API de Autenticação",
+          "Version": "v1",
+          "Url": "https://localhost:7226/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "estoque-api",
+      "Config": [
+        {
+          "Name": "API de Estoque",
+          "Version": "v1",
+          "Url": "https://localhost:7195/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "vendas-api",
+      "Config": [
+        {
+          "Name": "API de Vendas",
+          "Version": "v1",
+          "Url": "https://localhost:7194/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5000"
+  }
+}

@@ -1,3 +1,7 @@
+using AVANADE.INFRASTRUCTURE;
+using AVANADE.USUARIO.API.Data;
+using AVANADE.USUARIO.API.InjecaoDependencias;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
@@ -8,6 +12,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Adicionando serviços comum
+builder.Services.AddInfraServicosComum(configuration).
+                 AddDbContextConfiguration<UsuarioDbContext>(configuration, DbConnectionName);
+
+//Adicionando injeção de dependência dos repositórios e serviços
+builder.Services
+    .AddRepositories()
+    .AddServices();
 
 //Dica Scott Sauber, para não expor o server header.
 builder.WebHost.UseKestrel(opt => opt.AddServerHeader = false);
@@ -23,7 +36,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.AddCustomMiddlewares();
 
 app.MapControllers();
 

@@ -1,4 +1,5 @@
 ﻿using AVANADE.AUTH.API.Services.LoginServices;
+using AVANADE.INFRASTRUCTURE.ServicesComum.AuthServices;
 using AVANADE.MODULOS.Modulos.AVANADE_AUTH.DTOs.Request;
 using AVANADE.MODULOS.Modulos.AVANADE_AUTH.DTOs.Response;
 using AVANADE.MODULOS.Modulos.AVANADE_AUTH.Entidades;
@@ -44,14 +45,15 @@ namespace AVANADE.AUTH.API.Controllers
             }
 
             SetTokenCookies(result.AccessToken!, result.RefreshToken!);
-            return Ok(new LoginResponseDto(result.IDUsuario!, result.NomeUsuario!));
+            return Ok(new LoginResponseDto(result.IDUsuario, result.NomeUsuario!, null, null));
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpPost("refreshtoken")]
         public async Task<IActionResult> RefreshToken()
-        {            
-            string? expiredAccessToken = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-            string? refreshToken = Request.Cookies[_jwtSettings.AccessTokenCookieName];
+        {
+            string? expiredAccessToken = Request.Cookies[_jwtSettings.AccessTokenCookieName];
+            string? refreshToken = Request.Cookies[_jwtSettings.RefreshTokenCookieName];
 
             if (string.IsNullOrEmpty(expiredAccessToken) || string.IsNullOrEmpty(refreshToken))
             {
@@ -69,21 +71,20 @@ namespace AVANADE.AUTH.API.Controllers
             return Unauthorized(new { message = result.ErrorMessage });
         }
 
-        [Authorize]
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpGet("me")]
         public IActionResult GetCurrentUser()
         {       
-            var userId = _loginService.ObterIdUsuarioLogado(User);
-            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            var user = _loginService.ObterIdUsuarioLogado(User);           
 
-            if (userId == null)
+            if (user == null)
             {               
                 return Unauthorized();
             }           
-            return Ok(new { id = userId, email = userEmail });
+            return Ok(user);
         }
 
-        [Authorize]
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
@@ -99,16 +100,25 @@ namespace AVANADE.AUTH.API.Controllers
 
         private void SetTokenCookies(string accessToken, string refreshToken)
         {
-            var cookieOptions = new CookieOptions
+            var refreshTokenCookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays),
+                Secure = true,
+                SameSite = SameSiteMode.None
+            };            
+            Response.Cookies.Append(_jwtSettings.RefreshTokenCookieName, refreshToken, refreshTokenCookieOptions);
+
+
+            var accessTokenCookieOptions = new CookieOptions
+            {                
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationMinutes),
                 Secure = true,
                 SameSite = SameSiteMode.None
             };
-            Response.Cookies.Append(_jwtSettings.AccessTokenCookieName, refreshToken, cookieOptions);           
-            cookieOptions.Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationMinutes);
-            Response.Cookies.Append(_jwtSettings.AccessTokenCookieName, accessToken, cookieOptions);
+        
+            Response.Cookies.Append(_jwtSettings.AccessTokenCookieName, accessToken, accessTokenCookieOptions);
         }
 
         private void DeleteTokenCookies()

@@ -1,6 +1,8 @@
 ﻿using AVANADE.ESTOQUE.API.Services.ProdutoServices;
+using AVANADE.INFRASTRUCTURE.ServicesComum.AuthServices;
 using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AVANADE.ESTOQUE.API.Controllers
@@ -23,6 +25,7 @@ namespace AVANADE.ESTOQUE.API.Controllers
             _excluirProdutoService = excluirProdutoService;
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.ApenasAdm)]
         [HttpPost]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> CriarProduto([FromForm] ProdutoRequestDto dto, [FromForm] List<IFormFile>? imagens)
@@ -38,6 +41,7 @@ namespace AVANADE.ESTOQUE.API.Controllers
             return _obterProdutoService.ResponderRequest(this);
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpGet]
         public async Task<IActionResult> ObterProdutos(
             [FromQuery] int pagina,
@@ -51,6 +55,7 @@ namespace AVANADE.ESTOQUE.API.Controllers
             return _obterProdutoService.ResponderRequest(this);
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.ApenasAdm)]
         [HttpDelete("{idProduto}")]
         public async Task<IActionResult>ExcluirProduto(Guid idProduto)
         {

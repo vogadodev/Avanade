@@ -63,7 +63,7 @@ public class RefreshTokenService
             return false; // Token não existe ou já está inativo.
         }
 
-        refreshTokenInDb.IsRevoked = DateTime.UtcNow;
+        refreshTokenInDb.IsRevoked = true;
         _refreshTokenRepository.DbSet.Update(refreshTokenInDb);
         await _refreshTokenRepository.SaveChangesAsync();
 

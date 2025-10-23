@@ -2,8 +2,7 @@
 {
     public static class PoliciesTipoUsuario
     {
-        public const string ApenasAdm = "ApenasAdm";
-        public const string AcessoInterno = "AcessoInterno"; 
-        public const string Todos = "Todos";
+        public const string ApenasAdm = "ApenasUserAdm";       
+        public const string Todos = "TodosUsuario";
     }
 }

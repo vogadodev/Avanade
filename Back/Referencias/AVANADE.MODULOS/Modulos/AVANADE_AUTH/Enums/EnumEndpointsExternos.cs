@@ -4,7 +4,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_AUTH.Enums
 {
     public enum EnumEndpointsExternos
     {
-        [Description("/auth/login")]
+        [Description("api/usuarios/usuario/login")]
         LoginEndpoint       
     }
 }

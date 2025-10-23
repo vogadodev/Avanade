@@ -7,6 +7,8 @@ using AVANADE.MODULOS.Modulos.AVANADE_AUTH.DTOs.Response;
 using AVANADE.MODULOS.Modulos.AVANADE_AUTH.Enums;
 using AVANADE.MODULOS.Modulos.AVANADE_AUTH.Repositories;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades;
+using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Enums;
+using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Resourcers;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 using System.Text.Json;
@@ -40,8 +42,8 @@ namespace AVANADE.AUTH.API.Services.LoginServices
 
             //Verifica se a chamada falhou ou se a API de Usuário retornou erro
             if (retornoApi == null || retornoApi.Data == null)
-            {               
-                return new LoginResultDto(false, ErrorMessage: "Credenciais inválidas ou falha de comunicação.");
+            {   
+                return new LoginResultDto(false,null,null,null, ComumResource.UsuarioSenhaInvalido);
             }
 
             //Desserializa os dados do usuário que a API de Usuário retornou
@@ -55,33 +57,35 @@ namespace AVANADE.AUTH.API.Services.LoginServices
                       
             var claims = CriarClaims(usuario);
             var accessToken = _tokenService.GenerateAccessToken(claims);
-            var refreshToken = _tokenService.GenerateRefreshToken(usuario.Id);
+            var refreshToken = _tokenService.GenerateRefreshToken(usuario.IdUsuario);
             
             await _refreshTokenRepository.DbSet.AddAsync(refreshToken);
-            await _refreshTokenRepository.SaveChangesAsync();
-            return new LoginResultDto(true, usuario.Id.ToString(), accessToken, refreshToken.Token, usuario.Nome);
+            await _refreshTokenRepository.DbContext.SaveChangesAsync();
+            return new LoginResultDto(true, usuario.IdUsuario, usuario.NomeUsuario, accessToken, refreshToken.Token);
         }
               
-        public Guid? ObterIdUsuarioLogado(ClaimsPrincipal user)
+        public UsuarioAuthDto? ObterIdUsuarioLogado(ClaimsPrincipal user)
         {
             var userIdValue = user.FindFirstValue(ClaimTypes.NameIdentifier) ?? user.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            var userNome = user.FindFirstValue(ClaimTypes.Name) ?? user.FindFirstValue(JwtRegisteredClaimNames.Name);
             if (Guid.TryParse(userIdValue, out Guid userId))
             {
-                return userId;
+                return new UsuarioAuthDto() { IdUsuario = Guid.Parse(userIdValue), NomeUsuario = userNome! };
             }
             return null;
         }
 
         private static IEnumerable<Claim> CriarClaims(UsuarioAuthDto usuario)
         {
-            var claims = new List<Claim>
+            var claims = new[]
             {
-                new(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
-                new(JwtRegisteredClaimNames.Email, usuario.Email),
-                new(JwtRegisteredClaimNames.Name, usuario.Nome),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim (JwtRegisteredClaimNames.Sub, usuario.IdUsuario.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
+                new Claim(JwtRegisteredClaimNames.Name, usuario.NomeUsuario),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("UserType", usuario.Tipo.GetDescription())
             };
-            claims.AddRange(usuario.Roles.Select(role => new Claim(ClaimTypes.Role, role)));
+           
             return claims;
         }
     }

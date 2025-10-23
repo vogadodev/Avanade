@@ -12,12 +12,17 @@ builder.Services.AddControllers();
 
 //Adiciona o arquivo ocelot.json à configuração
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-
+builder.Configuration.AddJsonFile(
+    $"ocelot.{builder.Environment.EnvironmentName}.json",
+    optional: true,
+    reloadOnChange: true
+);
 //Adiciona os serviços do Ocelot ao contêiner de DI
 builder.Services.AddOcelot(builder.Configuration);
 
 // definidos no ocelot.json (MMLib.Ocelot.Swagger)
-builder.Services.AddSwaggerForOcelot(builder.Configuration);
+
+    builder.Services.AddSwaggerForOcelot(builder.Configuration);
 
 //Adicionando serviços comum
 builder.Services.AddInfraServicosComum(configuration);
@@ -29,8 +34,10 @@ var app = builder.Build();
 
 app.UseRouting();
 
-app.UseSwaggerForOcelotUI();
-
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwaggerForOcelotUI();
+}
 app.UseHttpsRedirection();
 
 app.AddCustomMiddlewares();

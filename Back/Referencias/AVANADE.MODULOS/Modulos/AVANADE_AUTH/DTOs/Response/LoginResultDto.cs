@@ -2,7 +2,7 @@
 {
     public record LoginResultDto(
      bool Succeeded,
-     string? IDUsuario = null,
+     Guid? IDUsuario = null,
      string? NomeUsuario = null,
      string? AccessToken = null,
      string? RefreshToken = null,

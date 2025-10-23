@@ -1,8 +1,6 @@
-﻿using AVANADE.INFRASTRUCTURE.ServicesComum.EnumService;
-using AVANADE.INFRASTRUCTURE.ServicesComum.MenssagemService;
+﻿using AVANADE.INFRASTRUCTURE.ServicesComum.MenssagemService;
 using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades;
-using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Enums;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Net.Http.Headers;
@@ -23,12 +21,12 @@ namespace AVANADE.INFRASTRUCTURE.ServicesComum.IntegracaoApiService
             _logger = logger;
 
             // Configura o endereço base do Gateway uma única vez.
-            _httpClient.BaseAddress = new Uri(EnumEndpointPrincipalGateway.EndPointGateway.GetDescription());
+            _httpClient.BaseAddress = new Uri(AmbienteUrlPadraoService.UrlPadraoService());
 
             // Configura o timeout.
             _httpClient.Timeout = TimeSpan.FromMinutes(1);
 
-            // Opções para desserialização case-insensitive, importante para robustez.
+            // Opções para desserialização case-insensitive
             _jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
@@ -136,13 +134,13 @@ namespace AVANADE.INFRASTRUCTURE.ServicesComum.IntegracaoApiService
                 var retornoErro = JsonSerializer.Deserialize<RetornoPadraoService>(errorBody, _jsonOptions);
                 if (retornoErro?.Mensagens != null && retornoErro.Mensagens.Any())
                 {
-                    Mensagens.AddRange(retornoErro.Mensagens); // Adiciona as mensagens de erro da API
+                    Mensagens.AddRange(retornoErro.Mensagens); 
                     return null;
                 }
             }
-            catch (JsonException)
+            catch (JsonException ex)
             {
-                // O corpo do erro não era um JSON ou não tinha o formato esperado. Ignora e segue para o tratamento genérico.
+                Mensagens.AdicionarErro(ex.Message);
             }
 
             // 3. Fallback: Se não foi possível extrair mensagens do corpo, cria uma mensagem genérica baseada no StatusCode.

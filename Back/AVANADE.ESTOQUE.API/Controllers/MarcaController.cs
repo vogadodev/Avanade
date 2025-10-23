@@ -1,6 +1,8 @@
 ﻿using AVANADE.ESTOQUE.API.Services.MarcaServices;
+using AVANADE.INFRASTRUCTURE.ServicesComum.AuthServices;
 using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AVANADE.ESTOQUE.API.Controllers
@@ -23,6 +25,7 @@ namespace AVANADE.ESTOQUE.API.Controllers
             _excluirMarcaService = excluirMarcaService;
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.ApenasAdm)]
         [HttpPost]
         public async Task<IActionResult> GravarMarca(MarcaRequestDto dto)
         {
@@ -31,13 +34,14 @@ namespace AVANADE.ESTOQUE.API.Controllers
 
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpGet("{nome}")]
         public async Task<IActionResult> ObterMarcaPorNome(string nome)
         {
             await _obterMarcaService.ObterPorNome(nome);
             return _obterMarcaService.ResponderRequest(this);
         }
-
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpGet("{pagina}/{qtdItensPagina}")]
         public async Task<IActionResult> ObterTodasMarcasPaginado(int pagina, int qtdItensPagina)
         {
@@ -45,6 +49,7 @@ namespace AVANADE.ESTOQUE.API.Controllers
             return _obterMarcaService.ResponderRequest(this);
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.ApenasAdm)]
         [HttpDelete("{idMarca}")]
         public async Task<IActionResult> ExcluirMarca(Guid idMarca)
         {

@@ -100,10 +100,12 @@ namespace AVANADE.INFRASTRUCTURE
                     policy.RequireAuthenticatedUser()
                           .RequireClaim("UserType", "Adm"));
 
-                // Política que exige que o usuário seja Adm OU Dentista
-                options.AddPolicy(PoliciesTipoUsuario.AcessoInterno, policy =>
+                // Política que exige que o usuário seja do tipo "UserComum"
+                options.AddPolicy(PoliciesTipoUsuario.ApenasAdm, policy =>
                     policy.RequireAuthenticatedUser()
-                          .RequireClaim("UserType", "Adm", "Dentista"));
+                          .RequireClaim("UserType", "UserComum"));
+
+
             });
             return services;
 
