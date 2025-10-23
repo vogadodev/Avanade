@@ -7,3 +7,6 @@
 [submodule "Front/avanade-usuario-front/projects/avanadecomponentes"]
 	path = Front/avanade-usuario-front/projects/avanadecomponentes
 	url = https://github.com/vogadodev/avanadecomponentes.git
+[submodule "Front/avanade-teste-front/projects/avanadecomponentes"]
+	path = Front/avanade-teste-front/projects/avanadecomponentes
+	url = https://github.com/vogadodev/avanadecomponentes.git
