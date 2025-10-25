@@ -169,6 +169,6 @@
     <value>Senha é obrigatória.</value>
   </data>
   <data name="UsuarioSenhaInvalido" xml:space="preserve">
-    <value>Usuario ou senha invalida, use o recuperar senha, caso E-mail exista, você irá receber uma mensagem para trocar sua senha. </value>
+    <value>Usuario ou senha invalida, use o recuperar senha, caso E-mail exista, você irá receber uma mensagem para redefinir sua senha. </value>
   </data>
 </root>

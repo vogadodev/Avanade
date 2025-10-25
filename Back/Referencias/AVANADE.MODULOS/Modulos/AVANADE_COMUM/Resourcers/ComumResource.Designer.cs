@@ -214,7 +214,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_COMUM.Resourcers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Usuario ou senha invalida, use o recuperar senha, caso E-mail exista, você irá receber uma mensagem para trocar sua senha. .
+        ///   Looks up a localized string similar to Usuario ou senha invalida, use o recuperar senha, caso E-mail exista, você irá receber uma mensagem para redefinir sua senha. .
         /// </summary>
         public static string UsuarioSenhaInvalido {
             get {

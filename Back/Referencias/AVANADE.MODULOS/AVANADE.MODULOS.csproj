@@ -9,11 +9,7 @@
   <ItemGroup>
     <Folder Include="Modulos\AVANADE_COMUM\Maps\" />
     <Folder Include="Modulos\AVANADE_ESTOQUE\Enums\" />
-    <Folder Include="Modulos\AVANADE_MENSSAGERIA\" />
     <Folder Include="Modulos\AVANADE_USUARIO\DTOs\Response\" />
-    <Folder Include="Modulos\AVANADE_VENDAS\DTOs\" />
-    <Folder Include="Modulos\AVANADE_VENDAS\Extensions\" />
-    <Folder Include="Modulos\AVANADE_VENDAS\Resourcers\" />
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.19" />
@@ -26,7 +22,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />		
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="RabbitMQ.Client" Version="6.8.1" />		
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Modulos\AVANADE_COMUM\Resourcers\ComumResource.Designer.cs">
@@ -54,6 +51,11 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>ProdutoResourcer.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Modulos\AVANADE_VENDAS\Resourcers\VendaResource.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>VendaResource.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Update="Modulos\AVANADE_COMUM\Resourcers\ComumResource.resx">
@@ -75,6 +77,10 @@
 	  <EmbeddedResource Update="Modulos\AVANADE_ESTOQUE\Resourcers\ProdutoResourcer.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>ProdutoResourcer.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Modulos\AVANADE_VENDAS\Resourcers\VendaResource.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>VendaResource.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
 </Project>

@@ -11,6 +11,7 @@ namespace AVANADE.USUARIO.API.InjecaoDependencias
             //Usuario
             services.AddScoped(typeof(ValidarUsuarioService));
             services.AddScoped(typeof(GravarUsuarioClienteService));
+            services.AddScoped(typeof(GravarUsuarioAdmService));
             services.AddScoped(typeof(UsuarioLoginService));
 
             return services;

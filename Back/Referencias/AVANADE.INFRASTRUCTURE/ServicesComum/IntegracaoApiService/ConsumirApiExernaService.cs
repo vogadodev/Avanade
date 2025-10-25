@@ -1,5 +1,5 @@
-﻿using AVANADE.INFRASTRUCTURE.ServicesComum.MenssagemService;
-using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
+﻿using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
+using AVANADE.INFRASTRUCTURE.ServicesComum.ServicoComMensagemService;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -53,7 +53,7 @@ namespace AVANADE.INFRASTRUCTURE.ServicesComum.IntegracaoApiService
                 var response = await _httpClient.PostAsJsonAsync(endpoint, data);
                 return await HandleResponse(response);
             }
-            catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
+            catch (Exception ex) 
             {
                 var errorMessage = $"Erro de comunicação ao acessar o endpoint POST '{endpoint}'.";
                 _logger.LogError(ex, errorMessage);
@@ -82,7 +82,7 @@ namespace AVANADE.INFRASTRUCTURE.ServicesComum.IntegracaoApiService
                 var response = await _httpClient.PostAsync(endpoint, multipartContent);
                 return await HandleResponse(response);
             }
-            catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
+            catch (Exception ex)
             {
                 var errorMessage = $"Erro de comunicação ao enviar arquivos para o endpoint '{endpoint}'.";
                 _logger.LogError(ex, errorMessage);

@@ -1,8 +1,11 @@
 ﻿using AVANADE.INFRASTRUCTURE;
 using AVANADE.INFRASTRUCTURE.MiddlewaresGlobais;
+using AVANADE.INFRASTRUCTURE.RabbitMQServices.Interfaces;
+using AVANADE.INFRASTRUCTURE.RabbitMQServices.Services;
 using AVANADE.INFRASTRUCTURE.ServicesComum.AuthServices;
 using AVANADE.INFRASTRUCTURE.ServicesComum.IntegracaoApiService;
 using AVANADE.MODULOS.Modulos.AVANADE_AUTH.Entidades;
+using AVANADE.MODULOS.Modulos.AVANADE_MENSSAGERIA.Entidades;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -18,20 +21,27 @@ namespace AVANADE.INFRASTRUCTURE
     {
         public static IServiceCollection AddInfraServicosComum(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddServicesComum();
+            services.AddServicesComum(configuration);
             services.AddCorsComum(configuration);
             services.AddJsonConfigComum(configuration);
             services.AddHttpClient();
             services.AddJwtAuthentication(configuration);
-            services.AddAuthorizationPolices();
+            services.AddAuthorizationPolices();           
 
             return services;
         }
         #region INJEÇÃO DE METODOS AUTOMÁTICOS
 
-        private static IServiceCollection AddServicesComum(this IServiceCollection services)
+        private static IServiceCollection AddServicesComum(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<RabbitMqSettings>(configuration.GetSection("RabbitMq"));
+
+            services.AddHttpContextAccessor();
             services.AddScoped(typeof(ConsumirApiExternaService));
+            services.AddTransient(typeof(CookiePropagationHandler));
+            services.AddHttpClient<ConsumirApiExternaService>()
+                        .AddHttpMessageHandler<CookiePropagationHandler>();
+            services.AddSingleton<IMessageBusService, RabbitMQService>();            
             return services;
 
         }
@@ -86,6 +96,7 @@ namespace AVANADE.INFRASTRUCTURE
 
             return services;
         }
+       
 
         private static IServiceCollection AddAuthorizationPolices(this IServiceCollection services)
         {
@@ -98,12 +109,7 @@ namespace AVANADE.INFRASTRUCTURE
                 // Política que exige que o usuário seja do tipo "Adm"
                 options.AddPolicy(PoliciesTipoUsuario.ApenasAdm, policy =>
                     policy.RequireAuthenticatedUser()
-                          .RequireClaim("UserType", "Adm"));
-
-                // Política que exige que o usuário seja do tipo "UserComum"
-                options.AddPolicy(PoliciesTipoUsuario.ApenasAdm, policy =>
-                    policy.RequireAuthenticatedUser()
-                          .RequireClaim("UserType", "UserComum"));
+                          .RequireClaim("UserType", "Adm"));             
 
 
             });
@@ -117,7 +123,7 @@ namespace AVANADE.INFRASTRUCTURE
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    string[] origins = { "http://front.odontonexus.com.br", "https://front.odontonexus.com.br" };
+                    string[] origins = { "http://avanade.ecommerce.com.br", "https://avanade.apigateway.com.br" };
                     builder.
                      WithOrigins(origins)
                      .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
@@ -133,8 +139,8 @@ namespace AVANADE.INFRASTRUCTURE
 
         #region INJECTGLOBALSERVICESMANUALLY
 
-        public static void AddDbContextConfiguration<TDbContext>(this IServiceCollection services,IConfiguration configuration,string connectionStringName)
-     where TDbContext : DbContext
+        public static void AddDbContextConfiguration<TDbContext>(this IServiceCollection services, IConfiguration configuration, string connectionStringName)
+                where TDbContext : DbContext
         {
             services.AddDbContext<TDbContext>(options =>
             {

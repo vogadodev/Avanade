@@ -1,5 +1,5 @@
 ﻿using AVANADE.ESTOQUE.API.Data;
-using AVANADE.INFRASTRUCTURE.ServicesComum.MenssagemService;
+using AVANADE.INFRASTRUCTURE.ServicesComum.ServicoComMensagemService;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.DTOs.Request;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Repositories;

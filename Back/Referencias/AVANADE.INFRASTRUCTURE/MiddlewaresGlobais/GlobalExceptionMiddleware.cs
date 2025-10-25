@@ -22,6 +22,7 @@ namespace AVANADE.INFRASTRUCTURE.MiddlewaresGlobais
             }
             catch (Exception ex)
             {
+                //TODO- EM PRODUÇÃO RETORNA MENSAGEM GENÉRICA SEM EXPOR DETALHES DA EXCEÇÃO
                 Mensagens.Add(new Mensagem(ex.Message, EnumTipoMensagem.Erro));
 
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;

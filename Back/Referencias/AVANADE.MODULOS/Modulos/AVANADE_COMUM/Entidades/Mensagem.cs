@@ -7,6 +7,8 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades
         public string Texto { get; set; } = string.Empty!;
         public EnumTipoMensagem Tipo { get; set; }
         public string? Detalhe { get; set; }
+
+        public Mensagem() { }
         public Mensagem(string mensagem, EnumTipoMensagem enumTipoMensagem , string? detalhe = null)
         {
             Texto = mensagem;
@@ -18,5 +20,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades
             Texto = exception.Message;
             Tipo = EnumTipoMensagem.Erro;
         }
+
+        
     }
 }

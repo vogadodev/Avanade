@@ -3,11 +3,12 @@ using AVANADE.ESTOQUE.API.Services.CategoriaServices;
 using AVANADE.ESTOQUE.API.Services.FronecedorServices;
 using AVANADE.ESTOQUE.API.Services.MarcaServices;
 using AVANADE.ESTOQUE.API.Services.ProdutoServices;
+using AVANADE.ESTOQUE.API.Services.RabbitMQServices;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Repositories;
 
 namespace AVANADE.ESTOQUE.API.InjecaoDependencias
 {
-    public static class AddDepencenciesServicesModule
+    public static class AddDependenciesServicesModule
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
@@ -34,6 +35,9 @@ namespace AVANADE.ESTOQUE.API.InjecaoDependencias
             services.AddScoped(typeof(ValidarCategoriaService));
             services.AddScoped(typeof(ObterCategoriaService));
             services.AddScoped(typeof(ExcluirCategoriaService));
+
+            //Mensageria RabbitMQ
+            services.AddScoped(typeof(ProcessarPedidoConsumer));
 
             return services;
 

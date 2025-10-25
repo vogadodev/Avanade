@@ -7,7 +7,6 @@ using AVANADE.MODULOS.Modulos.AVANADE_AUTH.DTOs.Response;
 using AVANADE.MODULOS.Modulos.AVANADE_AUTH.Enums;
 using AVANADE.MODULOS.Modulos.AVANADE_AUTH.Repositories;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades;
-using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Enums;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Resourcers;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
@@ -38,12 +37,12 @@ namespace AVANADE.AUTH.API.Services.LoginServices
         {
             //Chama a API de Usuário para validar as credenciais
             var loginRequestData = new { Email = email, Password = password };
-            var retornoApi = await _apiUsuarioService.Post(EnumEndpointsExternos.LoginEndpoint.GetDescription(), loginRequestData);
+            var retornoApi = await _apiUsuarioService.Post(EndpointsAuthExternosEnum.LoginEndpoint.GetDescription(), loginRequestData);
 
             //Verifica se a chamada falhou ou se a API de Usuário retornou erro
-            if (retornoApi == null || retornoApi.Data == null)
+            if (retornoApi == null || retornoApi?.Data == null)
             {   
-                return new LoginResultDto(false,null,null,null, ComumResource.UsuarioSenhaInvalido);
+                return new LoginResultDto(false,null,null,null,null, ComumResource.UsuarioSenhaInvalido);
             }
 
             //Desserializa os dados do usuário que a API de Usuário retornou

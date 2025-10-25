@@ -1,4 +1,4 @@
-﻿using AVANADE.INFRASTRUCTURE.ServicesComum.MenssagemService;
+﻿using AVANADE.INFRASTRUCTURE.ServicesComum.ServicoComMensagemService;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Resourcers;
 using AVANADE.MODULOS.Modulos.AVANADE_USUARIO.DTOs.Request;

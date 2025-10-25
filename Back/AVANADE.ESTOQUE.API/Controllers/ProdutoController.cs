@@ -2,6 +2,7 @@
 using AVANADE.INFRASTRUCTURE.ServicesComum.AuthServices;
 using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.DTOs.Request;
+using AVANADE.MODULOS.Modulos.AVANADE_VENDAS.DTOs.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,7 @@ namespace AVANADE.ESTOQUE.API.Controllers
             return _gravarProdutoService.ResponderRequest(this);
         }
 
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
         [HttpGet("{id}")]
         public async Task<IActionResult> ObterProdutoPorId(Guid id)
         {
@@ -52,6 +54,15 @@ namespace AVANADE.ESTOQUE.API.Controllers
             [FromQuery] bool? emPromocao)
         {
             await _obterProdutoService.ObterProdutosPaginadoComFiltro(pagina, qtdItensPagina , nome , nomeMarca, nomeCategoria, emPromocao);
+            return _obterProdutoService.ResponderRequest(this);
+        }
+
+
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
+        [HttpPost("VerificarEstoque")]
+        public async Task<IActionResult> VerificarProdutosDoPedidoTemEstoque(PedidoRequestDto dto)
+        {
+            await _obterProdutoService.ProdutosSemEstoque(dto);
             return _obterProdutoService.ResponderRequest(this);
         }
 

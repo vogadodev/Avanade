@@ -6,7 +6,7 @@ using AVANADE.MODULOS.Modulos.AVANADE_AUTH.Entidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Security.Claims;
+
 
 namespace AVANADE.AUTH.API.Controllers
 {
@@ -47,8 +47,7 @@ namespace AVANADE.AUTH.API.Controllers
             SetTokenCookies(result.AccessToken!, result.RefreshToken!);
             return Ok(new LoginResponseDto(result.IDUsuario, result.NomeUsuario!, null, null));
         }
-
-        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
+       
         [HttpPost("refreshtoken")]
         public async Task<IActionResult> RefreshToken()
         {

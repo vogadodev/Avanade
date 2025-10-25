@@ -50,7 +50,7 @@
     ======================================================*/
     {
       "RouteKey": "usuario_route",
-      "UpstreamPathTemplate": "/api/usuarios/{everything}",
+      "UpstreamPathTemplate": "/api/usuario/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

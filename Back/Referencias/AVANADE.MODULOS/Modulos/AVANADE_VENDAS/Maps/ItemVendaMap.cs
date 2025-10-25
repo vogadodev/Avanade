@@ -15,6 +15,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_VENDAS.Maps
             builder.Property(x => x.Id).HasColumnName("ITV_ID").IsRequired();
             builder.Property(x => x.VendaId).HasColumnName("ITV_IDVENDA").IsRequired();
             builder.Property(x => x.ProdutoId).HasColumnName("ITV_IDPRODUTO").IsRequired();
+            builder.Property(x => x.NomeProduto).HasColumnName("ITV_NOMEPRODUTO").IsRequired();
             builder.Property(x => x.Quantidade).HasColumnName("ITV_QUANTIDADE").IsRequired();
             builder.Property(x => x.PrecoUnitario).HasColumnName("ITV_PRECOUNITARIO").HasColumnType("decimal(18,2)").IsRequired();
             builder.Property(x => x.EstaAtivo).HasColumnName("ITV_ESTAATIVO").IsRequired();

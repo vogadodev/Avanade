@@ -1,4 +1,4 @@
-﻿using AVANADE.INFRASTRUCTURE.ServicesComum.MenssagemService;
+﻿using AVANADE.INFRASTRUCTURE.ServicesComum.ServicoComMensagemService;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

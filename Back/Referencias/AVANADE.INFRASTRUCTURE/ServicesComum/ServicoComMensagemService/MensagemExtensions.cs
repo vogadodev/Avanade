@@ -1,7 +1,7 @@
 ﻿using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Entidades;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Enums;
 
-namespace AVANADE.INFRASTRUCTURE.ServicesComum.MenssagemService
+namespace AVANADE.INFRASTRUCTURE.ServicesComum.ServicoComMensagemService
 {
     public static class MensagemExtensions
     {

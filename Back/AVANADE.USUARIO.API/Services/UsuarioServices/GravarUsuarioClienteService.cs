@@ -41,7 +41,7 @@ namespace AVANADE.USUARIO.API.Services.UsuarioServices
                 Id = Guid.NewGuid(),
                 NomeCompleto = dto.NomeCompleto,
                 Email = dto.Email,
-                Tipo =TipoUsuarioEnum.Cliente
+                Tipo = TipoUsuarioEnum.Cliente
             };
             usuario.UsuarioPassword = CriarSenhaCriptografada(dto);
             return usuario;

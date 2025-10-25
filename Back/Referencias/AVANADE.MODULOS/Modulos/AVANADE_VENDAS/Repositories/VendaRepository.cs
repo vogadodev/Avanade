@@ -22,7 +22,7 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_VENDAS.Repositories
             return await DbSet
                 .Include(v => v.ItensVenda)
                 .Where(v => v.ClienteId == clienteId)
-                .OrderByDescending(v => v.DataVenda)
+                .OrderByDescending(v => v.DataCriacao)
                 .AsNoTracking()
                 .ToListAsync();
         }

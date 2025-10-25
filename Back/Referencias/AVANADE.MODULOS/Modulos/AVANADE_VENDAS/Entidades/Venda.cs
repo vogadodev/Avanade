@@ -6,9 +6,9 @@ namespace AVANADE.MODULOS.Modulos.AVANADE_VENDAS.Entidades
     {        
         public Guid Id { get; set; }
         public Guid? ClienteId { get; set; } 
-        public DateTime DataVenda { get; set; }
-        public decimal ValorTotal { get; set; }
-        public StatusPagamentoEnum StatusPagamento { get; set; }   
+        public decimal ValorTotal { get; set; }        
+        public StatusVendaEnum StatusVenda { get; set; }  
+        public StatusPagamentoEnum StatusPagamento { get; set; }
         public DateTime DataCriacao { get; set; }
         public DateTime? DataAtualizacao { get; set; }
         public bool EstaAtivo { get; set; }
