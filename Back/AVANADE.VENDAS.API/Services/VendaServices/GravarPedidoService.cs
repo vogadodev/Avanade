@@ -45,8 +45,6 @@ namespace AVANADE.VENDAS.API.Services.VendaServices
             await _vendaRepository.DbContext.SaveChangesAsync();
 
             var pedidoMensagem = CriaPedidoFilaRabbitMQ(pedido);
-
-
             await _messageBus.PublicarMensagemAsync(pedidoMensagem, RabbitMqQueues.PedidosNovos);
         }
         private Venda CriarNovaVenda(PedidoRequestDto dto, ClaimsPrincipal user)
