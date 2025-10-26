@@ -12,6 +12,7 @@ namespace AVANADE.VENDAS.API.InjecaoDependencias
             //Vendas
             services.AddScoped(typeof(ValidarPedidoService));
             services.AddScoped(typeof(GravarPedidoService));
+            services.AddScoped(typeof(ObterVendaService));
 
             //RabbitMQ
             services.AddHostedService<StatusPedidoConsumer>();

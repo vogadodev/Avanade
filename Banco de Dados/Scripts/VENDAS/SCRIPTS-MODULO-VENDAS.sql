@@ -5,7 +5,7 @@
 -- =============================================================================
 --INFORMAÇÕES DE ACESSO AO BANCO DE DADOS DE VENDAS
 --Aqui está a configuração para acessar o SQLServer Studio 
---Nome do Servidor: localhost,1435
+--Nome do Servidor: localhost,1436
 --Usuario: sa
 --Password: SuaSenhaF0rteAqui!
 

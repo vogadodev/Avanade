@@ -12,10 +12,12 @@ namespace AVANADE.VENDAS.API.Controllers
     public class VendaController : ControllerBase
     {       
         private readonly GravarPedidoService _gravarPedidoService;
+        private readonly ObterVendaService _obterVendaService;
 
-        public VendaController(GravarPedidoService gravarPedidoService)
+        public VendaController(GravarPedidoService gravarPedidoService, ObterVendaService obterVendaService)
         {
             _gravarPedidoService = gravarPedidoService;
+            _obterVendaService = obterVendaService;
         }
 
         [Authorize(Policy = PoliciesTipoUsuario.Todos)]
@@ -24,6 +26,13 @@ namespace AVANADE.VENDAS.API.Controllers
         {
             await _gravarPedidoService.GravarPedido(dto, User);
             return _gravarPedidoService.ResponderRequest(this);
+        }
+        [Authorize(Policy = PoliciesTipoUsuario.Todos)]
+        [HttpGet("vendas")]
+        public async Task<IActionResult> ObterVendaPorId()
+        {
+            await _obterVendaService.ObterVendasPorCliente(User);
+            return _obterVendaService.ResponderRequest(this);
         }
     }
 }

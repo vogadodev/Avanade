@@ -66,6 +66,7 @@ namespace AVANADE.VENDAS.API.Services.VendaServices
                     NomeProduto= item.Nome,
                     EstaAtivo = true,
                 }).ToList(),
+                EstaAtivo = true,
                 DataCriacao = DateTime.Now
             };
         }
