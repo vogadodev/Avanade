@@ -10,10 +10,12 @@ namespace AVANADE.VENDAS.API.InjecaoDependencias
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            //Usuario
+            //Vendas
             services.AddScoped(typeof(ValidarPedidoService));
             services.AddScoped(typeof(GravarPedidoService));
-            services.AddScoped(typeof(StatusPedidoConsumer));            
+
+            //RabbitMQ
+            services.AddHostedService<StatusPedidoConsumer>();
 
             return services;
         }

@@ -37,7 +37,7 @@ namespace AVANADE.ESTOQUE.API.InjecaoDependencias
             services.AddScoped(typeof(ExcluirCategoriaService));
 
             //Mensageria RabbitMQ
-            services.AddScoped(typeof(ProcessarPedidoConsumer));
+            services.AddHostedService<ProcessarPedidoConsumer>();
 
             return services;
 

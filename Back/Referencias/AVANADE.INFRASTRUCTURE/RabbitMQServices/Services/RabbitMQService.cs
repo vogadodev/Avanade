@@ -87,6 +87,7 @@ namespace AVANADE.INFRASTRUCTURE.RabbitMQServices.Services
                         await handler(message);
                         
                         _consumerChannel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                        _logger.LogError("Consumindo Fila {QueueName}. Mensagem: {Json}", queueName, json);
                     }
                 }
                 catch (Exception ex)

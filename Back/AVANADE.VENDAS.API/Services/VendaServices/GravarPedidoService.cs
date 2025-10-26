@@ -76,9 +76,8 @@ namespace AVANADE.VENDAS.API.Services.VendaServices
         novaVenda.Id,
         novaVenda.ClienteId.ToString(),
         novaVenda.ItensVenda.Select(item =>
-            new ItemPedidoDto(item.Id , item.NomeProduto, item.Quantidade)
-        ).ToList()
-    );
+            new ItemPedidoDto(item.ProdutoId , item.NomeProduto, item.Quantidade)
+        ).ToList());
         }
     }
 }

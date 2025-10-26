@@ -1,3 +1,4 @@
+using AVANADE.GATEWAY.API.InjecaoDependencias;
 using AVANADE.INFRASTRUCTURE;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -20,12 +21,16 @@ builder.Configuration.AddJsonFile(
 //Adiciona os serviços do Ocelot ao contêiner de DI
 builder.Services.AddOcelot(builder.Configuration);
 
+builder.Services.AddInfraServicosComum(configuration);                
+
+//Adicionando injeção de dependência dos repositórios e serviços
+builder.Services
+    .AddRepositories()
+    .AddServices();
+
 // definidos no ocelot.json (MMLib.Ocelot.Swagger)
 
-    builder.Services.AddSwaggerForOcelot(builder.Configuration);
-
-//Adicionando serviços comum
-builder.Services.AddInfraServicosComum(configuration);
+builder.Services.AddSwaggerForOcelot(builder.Configuration);
 
 //Dica Scott Sauber, para não expor o server header.
 builder.WebHost.UseKestrel(opt => opt.AddServerHeader = false);

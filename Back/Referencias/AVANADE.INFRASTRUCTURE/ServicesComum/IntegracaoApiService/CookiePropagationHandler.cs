@@ -1,7 +1,6 @@
 ﻿using AVANADE.MODULOS.Modulos.AVANADE_AUTH.Entidades;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using System.Net.Http.Headers;
 
 namespace AVANADE.INFRASTRUCTURE.ServicesComum.IntegracaoApiService
 {

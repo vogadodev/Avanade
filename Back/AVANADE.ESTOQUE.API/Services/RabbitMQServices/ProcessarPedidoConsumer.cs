@@ -3,6 +3,7 @@ using AVANADE.INFRASTRUCTURE.RabbitMQServices.Interfaces;
 using AVANADE.INFRASTRUCTURE.RabbitMQServices.Queues;
 using AVANADE.MODULOS.Modulos.AVANADE_ESTOQUE.Repositories;
 using AVANADE.MODULOS.Modulos.AVANADE_VENDAS.DTOs.ContratosMensagem;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AVANADE.ESTOQUE.API.Services.RabbitMQServices
 {
@@ -10,15 +11,16 @@ namespace AVANADE.ESTOQUE.API.Services.RabbitMQServices
     {
         private readonly ILogger<ProcessarPedidoConsumer> _logger;
         private readonly IMessageBusService _messageBus;
-        private readonly ProdutoRepository<EstoqueDbContext> _produtoRepository;
+        private readonly IServiceScopeFactory _scopeFactory;
+
         public ProcessarPedidoConsumer(
-              ILogger<ProcessarPedidoConsumer> logger
-            , IMessageBusService messageBus
-            , ProdutoRepository<EstoqueDbContext> produtoRepository)
+            ILogger<ProcessarPedidoConsumer> logger,
+            IMessageBusService messageBus,
+            IServiceScopeFactory scopeFactory)
         {
             _logger = logger;
             _messageBus = messageBus;
-            _produtoRepository = produtoRepository;
+            _scopeFactory = scopeFactory;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -33,58 +35,61 @@ namespace AVANADE.ESTOQUE.API.Services.RabbitMQServices
 
         private async Task ProcessarPedidoAsync(PedidoDto pedido)
         {
-
-            _logger.LogInformation("Processando Pedido {PedidoId}", pedido.IdPedido);
-
-            var falhas = new List<ItemInvalidoDto>();
-
-            foreach (var item in pedido.Itens)
+            using (var scope = _scopeFactory.CreateScope())
             {
-                var produtoDb = await _produtoRepository.SelecionarObjetoAsync(p => p.Id == item.IdProduto);
-                if (produtoDb == null)
-                {
-                    falhas.Add(new ItemInvalidoDto(item.IdProduto, item.Quantidade, 0, "Produto Inexistente"));
-                }
-                else if (produtoDb.QuantidadeEstoque < item.Quantidade)
-                {
-                    falhas.Add(new ItemInvalidoDto(item.IdProduto, item.Quantidade, produtoDb.QuantidadeEstoque, "Estoque Insuficiente"));
-                }
-            }
+                var produtoRepository = scope.ServiceProvider.GetRequiredService<ProdutoRepository<EstoqueDbContext>>();
 
-            if (falhas.Any())
-            {
-                _logger.LogWarning("Pedido {PedidoId} falhou. Itens indisponíveis: {Count}", pedido.IdPedido, falhas.Count);
-                var msgFalha = new PedidoNaoConcluidoDto(pedido, falhas);
-                await _messageBus.PublicarMensagemAsync(msgFalha, RabbitMqQueues.PedidosNaoConcluidos);
-            }
-            else
-            {
+                _logger.LogInformation("Processando Pedido {PedidoId}", pedido.IdPedido);
 
-                try
+                var falhas = new List<ItemInvalidoDto>();
+
+                foreach (var item in pedido.Itens)
                 {
-                    await AtualizarEstoqueLocalmente(pedido.Itens);
-                    await _produtoRepository.DbContext.SaveChangesAsync();
-
-                    _logger.LogInformation("Pedido {PedidoId} concluído com sucesso. Publicando.", pedido.IdPedido);
-                    await _messageBus.PublicarMensagemAsync(pedido, RabbitMqQueues.PedidosConcluidos);
+                    var produtoDb = await produtoRepository.SelecionarObjetoAsync(p => p.Id == item.IdProduto);
+                    if (produtoDb == null)
+                    {
+                        falhas.Add(new ItemInvalidoDto(item.IdProduto, item.Quantidade, 0, "Produto Inexistente"));
+                    }
+                    else if (produtoDb.QuantidadeEstoque < item.Quantidade)
+                    {
+                        falhas.Add(new ItemInvalidoDto(item.IdProduto, item.Quantidade, produtoDb.QuantidadeEstoque, "Estoque Insuficiente"));
+                    }
                 }
-                catch (Exception ex)
+
+                if (falhas.Any())
                 {
-                    _logger.LogError(ex, "Erro ao dar baixa no estoque para Pedido {PedidoId}. Revertendo.", pedido.IdPedido);
-                    var msgErro = new PedidoNaoConcluidoDto(pedido, falhas.Any() ? falhas : new List<ItemInvalidoDto> { new(Guid.Empty, 0, 0, $"Erro interno: {ex.Message}") });
-                    await _messageBus.PublicarMensagemAsync(msgErro, RabbitMqQueues.PedidosNaoConcluidos);
+                    _logger.LogWarning("Pedido {PedidoId} falhou. Itens indisponíveis: {Count}", pedido.IdPedido, falhas.Count);
+                    var msgFalha = new PedidoNaoConcluidoDto(pedido, falhas);
+                    await _messageBus.PublicarMensagemAsync(msgFalha, RabbitMqQueues.PedidosNaoConcluidos);
+                }
+                else
+                {
+                    try
+                    {
+                        await AtualizarEstoqueLocalmente(pedido.Itens, produtoRepository);
+                        await produtoRepository.DbContext.SaveChangesAsync();
+
+                        _logger.LogInformation("Pedido {PedidoId} concluído com sucesso. Publicando.", pedido.IdPedido);
+                        await _messageBus.PublicarMensagemAsync(pedido, RabbitMqQueues.PedidosConcluidos);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Erro ao dar baixa no estoque para Pedido {PedidoId}. Revertendo.", pedido.IdPedido);
+                        var msgErro = new PedidoNaoConcluidoDto(pedido, falhas.Any() ? falhas : new List<ItemInvalidoDto> { new(Guid.Empty, 0, 0, $"Erro interno: {ex.Message}") });
+                        await _messageBus.PublicarMensagemAsync(msgErro, RabbitMqQueues.PedidosNaoConcluidos);
+                    }
                 }
             }
         }
-        private async Task AtualizarEstoqueLocalmente(List<ItemPedidoDto> listaPedidosDto)
+        private async Task AtualizarEstoqueLocalmente(List<ItemPedidoDto> listaPedidosDto, ProdutoRepository<EstoqueDbContext> produtoRepository)
         {
             var listaIdsProdutos = listaPedidosDto.Select(p => p.IdProduto).ToList();
-            var listaProdutosBanco = await _produtoRepository.SelecionarListaObjetoAsync(p => listaIdsProdutos.Contains(p.Id));
+            var listaProdutosBanco = await produtoRepository.SelecionarListaObjetoAsync(p => listaIdsProdutos.Contains(p.Id));
 
             foreach (var itemAtualizar in listaProdutosBanco)
             {
                 itemAtualizar.QuantidadeEstoque -= listaPedidosDto.Where(p => p.IdProduto == itemAtualizar.Id).First().Quantidade;
-                _produtoRepository.DbSet.Update(itemAtualizar);
+                produtoRepository.DbSet.Update(itemAtualizar);
             }
         }
     }

@@ -73,7 +73,11 @@ namespace AVANADE.ESTOQUE.API.Services.ProdutoServices
             var listaDeIds = dto.listaDeProdutos.Select(p => p.IdProduto).ToList();
 
             var produtosDoBanco = await _produtoRepository.SelecionarListaObjetoAsync(p => listaDeIds.Contains(p.Id));
-            var produtoSemEstoque = produtosDoBanco.Where(p => p.QuantidadeEstoque <= 0).ToList();
+            var produtoSemEstoque = produtosDoBanco.Where(p =>
+                dto.listaDeProdutos.Any(dtoItem =>
+                                     dtoItem.IdProduto == p.Id &&
+                                      (p.QuantidadeEstoque - dtoItem.Quantidade) < 0 )
+                                    ).ToList();
 
             var idsEncontrados = produtosDoBanco.Select(p => p.Id).ToHashSet();
             var produtosInexistentesDto = dto.listaDeProdutos
@@ -85,8 +89,8 @@ namespace AVANADE.ESTOQUE.API.Services.ProdutoServices
 
             Encontrado = true;
             var listaDeProdutosComErro = new List<ItemPedidoDto>();
-            listaDeProdutosComErro.AddRange(CriarProdutosSemEstoqueDto(produtoSemEstoque));           
-            listaDeProdutosComErro.AddRange(produtosInexistentesDto);           
+            listaDeProdutosComErro.AddRange(CriarProdutosSemEstoqueDto(produtoSemEstoque));
+            listaDeProdutosComErro.AddRange(produtosInexistentesDto);
             Data = listaDeProdutosComErro;
         }
 
