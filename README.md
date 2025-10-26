@@ -22,9 +22,11 @@ Este projeto "Avanade" é um reflexo prático dessas tecnologias e conceitos.
 ## Sobre o Projeto "Avanade"
 Primeiros passos ao realizar o clone do projeto:
 
-git clone https://github.com/vogadodev/Avanade.git
+**git clone https://github.com/vogadodev/Avanade.git**
+
 Como estamos trabalhando com submodules do git para os projetos frontends precisamos executar o seguinte comando dentro da pasta onde o projeto foi clonado: 
-git submodule update --init --recursive
+
+**git submodule update --init --recursive**
 
 Este repositório demonstra a implementação de um sistema (ex: E-commerce/ERP) utilizando uma arquitetura distribuída e moderna. O objetivo é apresentar a aplicação prática de:
 
