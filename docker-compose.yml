@@ -8,15 +8,19 @@ services:
     build:
       context: ./back
       dockerfile: AVANADE.GATEWAY.API/Dockerfile
+    profiles:
+      - gateway
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Development # Ou Docker
       - ASPNETCORE_URLS=http://+:8080
     ports:
       - "8080:8080"
     networks:
-      - avanade-network    
+      - avanade-network   
     depends_on:
-      - rabbitmq 
+      rabbitmq:
+        condition: service_healthy
+
   # -----------------------------------------------------
   #  MICROSERVIÇOS DE BACKEND
   # -----------------------------------------------------
@@ -35,8 +39,10 @@ services:
     networks:
       - avanade-network
     depends_on:
-      - db-auth
-      - rabbitmq
+      db-auth:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
 
   avanade-usuario-api:
     container_name: avanade-usuario-api
@@ -53,8 +59,10 @@ services:
     networks:
       - avanade-network
     depends_on:
-      - db-usuario
-      - rabbitmq
+      db-usuario:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
 
   avanade-estoque-api:
     container_name: avanade-estoque-api
@@ -71,8 +79,10 @@ services:
     networks:
       - avanade-network
     depends_on:
-      - db-estoque
-      - rabbitmq
+      db-estoque:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
 
   avanade-vendas-api:
     container_name: avanade-vendas-api
@@ -89,8 +99,10 @@ services:
     networks:
       - avanade-network
     depends_on:
-      - db-vendas
-      - rabbitmq
+      db-vendas:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
 
   # -----------------------------------------------------
   #  INFRAESTRUTURA
@@ -98,15 +110,21 @@ services:
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3-management-alpine
-    # O RabbitMQ vai rodar sempre (sem 'profile')
     ports:
       - "5672:5672"
       - "15672:15672"
+    profiles:
+      - infra-menssageria
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     networks:
       - avanade-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   db-auth:
     container_name: db-auth

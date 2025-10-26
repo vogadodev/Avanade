@@ -1,5 +1,4 @@
-﻿using AVANADE.MODULOS.Modulos.AVANADE_USUARIO.Repositories;
-using AVANADE.MODULOS.Modulos.AVANADE_VENDAS.Repositories;
+﻿using AVANADE.MODULOS.Modulos.AVANADE_VENDAS.Repositories;
 using AVANADE.VENDAS.API.Data;
 using AVANADE.VENDAS.API.Services.RabbitMQServices;
 using AVANADE.VENDAS.API.Services.VendaServices;
