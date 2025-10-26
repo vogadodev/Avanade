@@ -1,5 +1,11 @@
 # Projeto Avanade - Demonstração de Arquitetura Moderna
 
+## LINK PARA VÍDEO ONDE EXPLICO UM POUCO DO PROJETO E CONFIGURAÇÕES INICIAIS
+
+[![Assista ao vídeo de apresentação do projeto](https://img.youtube.com/vi/_k4GsLopNuU/hqdefault.jpg)](https://youtu.be/_k4GsLopNuU)
+
+*(Clique na imagem acima para assistir ao vídeo)*
+
 ## Sobre Mim
 
 Olá! Pessoal da Avanade! 
