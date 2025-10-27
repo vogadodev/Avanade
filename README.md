@@ -34,6 +34,15 @@ Como estamos trabalhando com submodules do git para os projetos frontends precis
 
 **git submodule update --init --recursive**
 
+**Para Desenvolvimento e Testes sem ser pelo docker-compose faça as seguites configurações
+
+Altere o arquivo AmbienteURlPadraoService.cs
+<img width="1881" height="558" alt="image" src="https://github.com/user-attachments/assets/daa13caa-ba20-4e75-a770-861401a2068b" />
+
+**Altere o arquivo appsettigns.Development.json.
+<img width="1536" height="525" alt="image" src="https://github.com/user-attachments/assets/f9b74e49-fa7a-4493-9e96-52e9b41ad086" />
+
+
 Este repositório demonstra a implementação de um sistema (ex: E-commerce/ERP) utilizando uma arquitetura distribuída e moderna. O objetivo é apresentar a aplicação prática de:
 
 * **Microsserviços no Backend:** Utilizando .NET 8 e ASP.NET Core Web API, cada serviço focado em um domínio específico (Autenticação, Usuários, Estoque, Vendas).
