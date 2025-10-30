@@ -34,6 +34,25 @@ Como estamos trabalhando com submodules do git para os projetos frontends precis
 
 **git submodule update --init --recursive**
 
+**Para Desenvolvimento e Testes sem ser pelo docker-compose faça as seguites configurações**
+
+-Altere o arquivo AmbienteURlPadraoService.cs
+<img width="1881" height="558" alt="image" src="https://github.com/user-attachments/assets/daa13caa-ba20-4e75-a770-861401a2068b" />
+
+-Altere o arquivo appsettigns.Development.json.
+<img width="1536" height="525" alt="image" src="https://github.com/user-attachments/assets/f9b74e49-fa7a-4493-9e96-52e9b41ad086" />
+
+**PARA O BANCO DE DADOS**
+
+**Crie as tabelas e banco de dados utilizando os scripts para cada módulo do projeto, após rodar o docker-compose via ferramente, se conecte ao banco de dados utilizando a configuração existente em cada arquivo:** 
+
+<img width="597" height="195" alt="image" src="https://github.com/user-attachments/assets/0eca0670-383c-4bb7-b578-29a8a1b4bb9e" />
+
+*Assim deve ficar a configuração de conexão:**
+
+<img width="475" height="510" alt="image" src="https://github.com/user-attachments/assets/694ccf6c-39fa-4f80-b907-005178fc5b29" />
+
+
 Este repositório demonstra a implementação de um sistema (ex: E-commerce/ERP) utilizando uma arquitetura distribuída e moderna. O objetivo é apresentar a aplicação prática de:
 
 * **Microsserviços no Backend:** Utilizando .NET 8 e ASP.NET Core Web API, cada serviço focado em um domínio específico (Autenticação, Usuários, Estoque, Vendas).
