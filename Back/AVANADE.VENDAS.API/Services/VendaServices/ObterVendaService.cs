@@ -1,5 +1,8 @@
-﻿using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
+﻿using AVANADE.INFRASTRUCTURE.ServicesComum.EnumService;
+using AVANADE.INFRASTRUCTURE.ServicesComum.RetornoPadraoAPIs;
 using AVANADE.MODULOS.Modulos.AVANADE_COMUM.Interfaces;
+using AVANADE.MODULOS.Modulos.AVANADE_VENDAS.DTOs.Response;
+using AVANADE.MODULOS.Modulos.AVANADE_VENDAS.Entidades;
 using AVANADE.MODULOS.Modulos.AVANADE_VENDAS.Repositories;
 using AVANADE.VENDAS.API.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,15 +22,15 @@ namespace AVANADE.VENDAS.API.Services.VendaServices
 
         public async Task ObterVenda(Guid id)
         {
-            var venda = await _vendaRepository.SelecionarObjetoAsync(v=> v.Id == id);
+            var venda = await _vendaRepository.SelecionarObjetoAsync(v => v.Id == id);
             if (venda == null)
-            {               
-               
+            {
+
                 return;
             }
 
             Encontrado = true;
-            Data = venda;
+            Data = CriarVendaDto(venda);
             return;
         }
 
@@ -38,14 +41,35 @@ namespace AVANADE.VENDAS.API.Services.VendaServices
 
 
             var vendas = await _vendaRepository.ObterVendasPorClienteAsync(userId);
+            var vendasDtos = new List<VendaResponseDto>();
             if (vendas == null || !vendas.Any())
-            {  
+            {
                 return;
             }
+            foreach(var venda in vendas)
+            {
+                vendasDtos.Add(CriarVendaDto(venda));
+            }
+
             Encontrado = true;
-            Data = vendas;
+            Data = vendasDtos;
             return;
         }
 
+        private VendaResponseDto CriarVendaDto(Venda venda)
+        {
+            return new VendaResponseDto(
+                venda.Id,
+                venda.ClienteId,
+                venda.ValorTotal,
+                venda.StatusVenda.GetDescription(),
+                venda.StatusPagamento.GetDescription(),
+                venda.DataCriacao,
+                venda.DataAtualizacao,
+                venda.EstaAtivo,
+                venda.ItensVenda
+                );
+
+        }
     }
 }
